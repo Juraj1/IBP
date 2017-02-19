@@ -1,0 +1,6 @@
+src/receiver/CMakeLists.txt
+src/receiver/.idea
+src/receiver/*.o
+src/sender/*.o
+src/sender/.idea
+src/sender/CMakeLists.txt

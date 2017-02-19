@@ -1,0 +1,182 @@
+#include <netinet/in.h>
+
+#include "resender.h"
+
+resender *hack;
+
+static void sig_handler(int s){
+    std::cerr << std::endl << "Handling signal " << s << std::endl;
+    hack->m_run = false;
+}
+
+resender::resender(){
+    while(!(m_q.empty())){
+        m_q.pop();
+    }
+    memset(&m_config, 0, sizeof(cfg_t));
+    m_run = false;
+    m_run_mut.lock();
+}
+
+bool resender::read_config(){
+    std::ifstream file;
+    file.open("radar.conf");
+    
+    std::string line;
+    std::string type;
+    std::string value;
+    
+    std::vector<std::string> v;
+    
+    if(file.is_open()){
+        while(getline(file, line)){
+            if(line[0] == '#'){
+                continue;
+            }
+            
+            v = split(line, '=');
+            if(v.size() < 2){
+                continue;
+            }
+            
+            if(v[0] == "PLANE_TYPE"){
+                if(v[1] == "A320"){
+                    m_config.plane_type = plane_type_e::A320;
+                }
+                else if(v[1] == "B747"){
+                    m_config.plane_type = plane_type_e::B747;
+                }
+                else if(v[1] == "C130"){
+                    m_config.plane_type = plane_type_e::C130;
+                }
+                else{
+                    m_config.plane_type = plane_type_e::GENERIC;
+                }
+            }
+            else if(v[0] == "FLARE_INIT_HEIGHT"){
+                m_config.flare_init_height = std::stod(v[1]);
+            }
+            else if(v[0] == "FLARE_HEIGHT"){
+                m_config.flare_height = std::stod(v[1]);
+            }
+            else if(v[0] == "CTRL_PORT"){
+                m_config.port = std::stod(v[1]);
+            }
+        }
+        file.close();
+    }
+    else{
+        std::cerr << "Failed to open config file: radar.conf" << std::endl;
+        return true;
+    }
+    return false;
+}
+
+std::vector<std::string> resender::split(const std::string &s, char delim) {
+    std::stringstream ss(s);
+    std::string item;
+    std::vector<std::string> tokens;
+    while (getline(ss, item, delim)) {
+        tokens.push_back(item);
+    }
+    return tokens;
+}
+
+bool resender::receiver(){
+    /* I had to fuck over with signal handler to allow me to change object variable at SIGINT*/
+    hack = this;
+    signal(SIGINT, &sig_handler);
+    signal(SIGABRT, &sig_handler);
+    signal(SIGTERM, &sig_handler);
+    
+    if(0 > (m_s = socket(AF_INET, SOCK_DGRAM, 0))){
+        std::cerr << "Failed to create socket" << std::endl;
+        return true;
+    }
+    struct sockaddr_in addr;
+    /* init to zeros */
+    memset(&addr, 0, sizeof(struct sockaddr_in));
+    /* ipv4 */
+    addr.sin_family = AF_INET;
+    /* ipv4: 127.0.0.1 */
+    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    /* connect to port defined in config file */
+    addr.sin_port = htons(m_config.port);
+    /* set timeout */
+    struct timeval tv;
+    /* 0 sec */
+    tv.tv_sec = 0;
+    /* 500 mili sec */
+    tv.tv_usec = 500000;
+    if (0 > setsockopt(m_s, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv))){
+        std::cerr << "Failed to set timeout" << std::endl;
+        return true;
+    }
+    /* bind to socket */    
+    if(0 > bind(m_s, (struct sockaddr *)&addr, sizeof(struct sockaddr_in))){
+        std::cerr << "Failed to bind socket" << std::endl;
+        return true;
+    }
+
+    /*
+     * receiving double + 3 zero bytes
+     * protocol bytes:
+     * | 0 | 1 || 2 | 3 | 4 | 5 | n = sizeof(double) ||       n + 1        |        n + 2        |
+     *  0x0|0x0||     altitude above runway          || trailing zeros to detect end of message
+     */
+    char buffer[sizeof(double)] = {0};
+    struct sockaddr_storage src_addr;
+    socklen_t src_addr_len = sizeof(src_addr);
+
+    /* allow receiving and control loops to iterate */
+    m_run = true;
+    /* allow main control thread to run */
+    m_run_mut.unlock();
+    while(m_run){
+        ssize_t count = recvfrom(m_s, &buffer, sizeof(buffer), 0, (struct sockaddr*)&src_addr, &src_addr_len);
+        if (-1 == count){
+            std::cerr << "Failed to get datagram " << std::endl;
+        }else if (count > (ssize_t)sizeof(buffer)){
+            std::cerr << "datagram too large for buffer: truncated" << std::endl;
+        }else{
+            parser((void *)buffer);
+        }
+    }
+    
+    close(m_s);
+    return false;
+}
+
+void resender::controller(){
+    m_run_mut.lock();
+    double alt = 0;
+    while(m_run){
+        /* crit section */
+        m_q_mut.lock();
+        /* empty check */
+        if(m_q.empty()){
+            m_q_mut.unlock();
+            continue;
+        }
+        /* get altitude and pop first item */
+        alt = m_q.front();
+        m_q.pop();
+        /* end of crit section */
+        m_q_mut.unlock();
+    }
+}
+
+bool resender::parser(void *buff){
+    /* get altitude */
+    alt_t a;
+    memcpy(&(a), buff, sizeof(long));
+
+    /* critical section */
+    m_q_mut.lock();
+    /* push data into Q */
+    m_q.push(a.d_rcv);
+    /* end of critical section */
+    m_q_mut.unlock();
+
+    return false;
+}
