@@ -6,7 +6,7 @@
 #include <netinet/in.h>
 #include <iostream>
 
-#include "../resender.h"
+#include "../receiver/resender.h"
 
 void send(){
     struct sockaddr_in dst;
