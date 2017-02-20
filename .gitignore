@@ -4,3 +4,6 @@ src/receiver/*.o
 src/sender/*.o
 src/sender/.idea
 src/sender/CMakeLists.txt
+nbproject
+src/receiver/IBP
+src/sender/sender

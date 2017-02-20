@@ -8,6 +8,12 @@
 
 #include "../receiver/resender.h"
 
+/* 
+ * sender testing program for data suply
+ * author: Jiri Zahradnik
+ * date: spring 2017
+ */
+
 void send(){
     struct sockaddr_in dst;
     /* init to zeros */

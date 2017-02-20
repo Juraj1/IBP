@@ -1,6 +1,11 @@
-#include <netinet/in.h>
-
 #include "resender.h"
+
+/*
+ * implementation of resender class
+ * author: Jiri Zahradnik
+ * date: spring 2017
+ */
+
 
 resender *hack;
 
@@ -10,9 +15,6 @@ static void sig_handler(int s){
 }
 
 resender::resender(){
-    while(!(m_q.empty())){
-        m_q.pop();
-    }
     memset(&m_config, 0, sizeof(cfg_t));
     m_run = false;
     m_run_mut.lock();
@@ -150,18 +152,12 @@ void resender::controller(){
     m_run_mut.lock();
     double alt = 0;
     while(m_run){
-        /* crit section */
-        m_q_mut.lock();
         /* empty check */
         if(m_q.empty()){
-            m_q_mut.unlock();
             continue;
         }
         /* get altitude and pop first item */
-        alt = m_q.front();
-        m_q.pop();
-        /* end of crit section */
-        m_q_mut.unlock();
+        alt = m_q.pop();
     }
 }
 
@@ -170,12 +166,8 @@ bool resender::parser(void *buff){
     alt_t a;
     memcpy(&(a), buff, sizeof(long));
 
-    /* critical section */
-    m_q_mut.lock();
     /* push data into Q */
     m_q.push(a.d_rcv);
-    /* end of critical section */
-    m_q_mut.unlock();
 
     return false;
 }

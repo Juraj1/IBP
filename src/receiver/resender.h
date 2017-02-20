@@ -1,6 +1,12 @@
 #ifndef __RESENDER_H__
 #define __RESENDER_H__
 
+/*
+ * definition of resender class and required data types
+ * author: Jiri Zahradnik
+ * date:   spring 2017
+ */
+
 #include <queue>
 #include <mutex>
 #include <thread>
@@ -15,6 +21,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+
+#include "threadSafety.h"
 
 typedef enum class plane_type_e{
     A320 = 0,
@@ -39,8 +47,7 @@ class resender{
 public:
     /* variables */
     
-    std::queue<double> m_q; //< \brief Queue for event push
-    std::mutex m_q_mut; //< \brief Mutex for event queue
+    threadSafety::Q<double> m_q; //< \brief Queue for event push
     std::mutex m_run_mut; //< \brief Mutex to lock controller thread
     cfg_t m_config; //< \brief Structure for configuration file
     bool m_run; //< \brief stop flag

@@ -1,17 +1,14 @@
 CC=g++
 CFLAGS=-std=c++11 -Wall -pedantic -ggdb
-OBJFILES=	safeQ.o
-			resender.o\
+OBJFILES=	resender.o\
 		    main.o
 BINARY=IBP
 
 ${BINARY}:${OBJFILES}
 	${CC} ${OBJFILES} -lpthread -o ${BINARY}
 
-safeQ.o:safeQ.cpp
-	${CC} ${CFLAGS} -c safeQ.cpp
 
-resender.o:resender.cpp
+resender.o:resender.cpp threadSafety.h
 	${CC} ${CFLAGS} -c resender.cpp
 	
 main.o:main.cpp
