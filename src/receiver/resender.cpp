@@ -121,8 +121,7 @@ bool resender::receiver(){
     /*
      * receiving double + 3 zero bytes
      * protocol bytes:
-     * | 0 | 1 || 2 | 3 | 4 | 5 | n = sizeof(double) ||       n + 1        |        n + 2        |
-     *  0x0|0x0||     altitude above runway          || trailing zeros to detect end of message
+     * | 1 | 2 | 3 | 4 | n = sizeof(double) |
      */
     char buffer[sizeof(double)] = {0};
     struct sockaddr_storage src_addr;
