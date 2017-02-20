@@ -16,6 +16,7 @@
 #include <vector>
 #include <sstream>
 #include <signal.h>
+#include <memory>
 
 /* socket interface */
 #include <sys/socket.h>
@@ -47,11 +48,11 @@ class resender{
 public:
     /* variables */
     
-    threadSafety::Q<double> m_q; //< \brief Queue for event push
-    std::mutex m_run_mut; //< \brief Mutex to lock controller thread
-    cfg_t m_config; //< \brief Structure for configuration file
-    bool m_run; //< \brief stop flag
-    int m_s; //< \brief socket
+    threadSafety::queue_t<double> m_q; //< @brief Queue for event push
+    std::mutex m_run_mut; //< @brief Mutex to lock controller thread
+    cfg_t m_config; //< @brief Structure for configuration file
+    bool m_run; //< @brief stop flag
+    int m_s; //< @brief socket
 
 
     /* methods */

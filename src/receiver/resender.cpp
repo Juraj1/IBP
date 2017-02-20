@@ -157,7 +157,8 @@ void resender::controller(){
             continue;
         }
         /* get altitude and pop first item */
-        alt = m_q.pop();
+        alt = m_q.front();
+        std::cout << alt << std::endl;
     }
 }
 
