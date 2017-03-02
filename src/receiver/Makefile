@@ -5,7 +5,7 @@ OBJFILES=	resender.o\
 BINARY=IBP
 
 ${BINARY}:${OBJFILES}
-	${CC} ${OBJFILES} -lpthread -o ${BINARY}
+	${CC} ${OBJFILES} -lpthread -lportaudio -o ${BINARY}
 
 resender.o:resender.cpp threadSafety.h
 	${CC} ${CFLAGS} -c resender.cpp

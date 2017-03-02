@@ -116,6 +116,78 @@ namespace threadSafety{
         
         public:
             
+            stack_t(){
+                m_empty = true;
+            }
+            
+            /**
+             * @brief pushes item into stack
+             * @param item item of type T that will be pushed in stack
+             */
+            void push(T &item){
+                lock_t m_lock = lock_t(m_mut);
+                m_dq.push_back(item);
+                m_empty = false;
+                var.notify_one();
+            }
+
+            /**
+             * @brief gets first member from stack and pops it
+             * @return first member from stack
+             */
+            T pop(){
+                lock_t m_lock = lock_t(m_mut);
+                while(m_empty){
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    var.wait(m_lock);
+                }
+                T item = std::move(m_dq.back());
+                m_dq.pop_back();
+                if(m_dq.empty()){
+                    m_empty = true;
+                }
+
+                return item;
+            }
+
+            /**
+             * 
+             * @return reference to first item;
+             */
+            T &top(){
+                lock_t m_lock = lock_t(m_mut);
+                while(m_empty){
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    var.wait(m_lock);
+                }
+                T &item = m_dq.back();
+
+                return item;
+            };
+            /**
+             * 
+             * @return true or false depending on emptyness of the stack
+             */
+            bool empty(){
+                lock_t m_lock = lock_t(m_mut);
+                if(m_dq.empty()){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+
+            void clear(){
+                lock_t m_lock = lock_t(m_mut);
+                while(m_empty){
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    var.wait(m_lock);
+                }
+                while(!m_dq.empty()){
+                    m_dq.pop_back();
+                }
+            }
     };
 //    template<typename T>
 //    class pakos
