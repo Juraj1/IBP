@@ -1,13 +1,18 @@
 CC=g++
 CFLAGS=-std=c++11 -Wall -pedantic -ggdb
-OBJFILES=	resender.o\
-		    main.o
+OBJFILES=	paudio.o\
+		resender.o\
+		main.o
 BINARY=IBP
+DEPLIBS=threadSafety.h
 
 ${BINARY}:${OBJFILES}
 	${CC} ${OBJFILES} -lpthread -lportaudio -o ${BINARY}
 
-resender.o:resender.cpp threadSafety.h
+paudio.o:paudio.cpp ${DEPLIBS}
+	${CC} ${CFLAGS} -c paudio.cpp
+	
+resender.o:resender.cpp ${DEPLIBS}
 	${CC} ${CFLAGS} -c resender.cpp
 	
 main.o:main.cpp
