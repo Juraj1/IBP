@@ -1,6 +1,8 @@
 /* 
  * File:   paudio.h
- * Author: Jiri Zahradnik
+ * code taken from: http://stackoverflow.com/questions/7678470/generating-sound-of-a-particular-frequency-using-gcc-in-ubuntu
+ * and modified by Jiri Zahradnik. 
+ * Original code is under WTFPL licence: https://en.wikipedia.org/wiki/WTFPL
  *
  * Created on March 9, 2017, 1:17 PM
  */
@@ -27,7 +29,7 @@ int paudio::initSound(){
     outputParam.suggestedLatency = Pa_GetDeviceInfo( outputParam.device )->defaultLowOutputLatency;
     outputParam.hostApiSpecificStreamInfo = NULL;
 
-    err = Pa_OpenStream(&stream, NULL, &outputParam, SAMPLE_RATE, FRAMES_PER_BUFFER, paClipOff, paCallback, &data);
+    err = Pa_OpenStream(&stream, NULL, &outputParam, SAMPLE_RATE, FRAMES_PER_BUFFER, paClipOff, paudio::paCallback, &data);
 
     if(err != paNoError){
         Pa_Terminate();

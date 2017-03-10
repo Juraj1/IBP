@@ -24,8 +24,18 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
+/* time */
+#include <sys/time.h>
+
 #include "threadSafety.h"
 #include "paudio.h"
+
+#define OFFSET_ALT_PART (1)
+#define OFFSET_TIMESTAMP_PART (OFFSET_ALT_PART + sizeof(double))
+#define OFFSET_RESERVED_PART (OFFSET_TIMESTAMP_PART + 8)
+#define OFFSET_END (OFFSET_RESERVED_PART + 1)
+
+#define DELTA_TIME 100000 /* [u sec] */
 
 typedef enum class plane_type_e{
     A320 = 0,
@@ -39,6 +49,14 @@ typedef union {
     double d_rcv;
 }alt_t;
 
+typedef struct __attribute__ ((packed)) {
+    uint8_t flags;
+    double altitude;
+    unsigned long long timestamp;
+    uint64_t reserved;
+    uint8_t end_byte;
+}packet_t;
+
 typedef struct config_t{
     plane_type_t plane_type;
     double flare_init_height;
@@ -50,12 +68,11 @@ class resender{
 public:
     /* variables */
     
-    threadSafety::queue_t<double> m_q; //< @brief Queue for event push
+    threadSafety::queue_t<packet_t> m_q; //< @brief Queue for event push
     std::mutex m_run_mut; //< @brief Mutex to lock controller thread
     cfg_t m_config; //< @brief Structure for configuration file
     bool m_run; //< @brief stop flag
     int m_s; //< @brief socket
-
 
     /* methods */
     resender();
@@ -88,7 +105,7 @@ public:
      * @param buff Buffer with stored message to parse
      * @return true on error
      */
-    bool parser(void *);
+    bool parser(packet_t);
     
 protected:
     /* variables */

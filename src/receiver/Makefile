@@ -4,7 +4,10 @@ OBJFILES=	paudio.o\
 		resender.o\
 		main.o
 BINARY=IBP
-DEPLIBS=threadSafety.h
+DEPLIBS=threadSafety.h\
+		paudio.h\
+		resender.h
+		
 
 ${BINARY}:${OBJFILES}
 	${CC} ${OBJFILES} -lpthread -lportaudio -o ${BINARY}

@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   paudio.h
- * Author: Jiri Zahradnik
+ * File: paudio.h
+ * code taken from: http://stackoverflow.com/questions/7678470/generating-sound-of-a-particular-frequency-using-gcc-in-ubuntu
+ * and modified by Jiri Zahradnik. 
+ * Original code is under WTFPL licence: https://en.wikipedia.org/wiki/WTFPL *
  *
  * Created on March 9, 2017, 1:17 PM
  */
@@ -26,9 +22,6 @@
 namespace paudio{
 
     typedef struct{
-        float left_phase;
-        float right_phase;
-
         uint32_t total_count;
         uint32_t up_count;
         uint32_t counter;
@@ -37,7 +30,7 @@ namespace paudio{
     }paData;
 
     /* callback function */
-    static int paCallback(
+    static inline int paCallback(
             const void *input,
             void *output,
             unsigned long frameCount,

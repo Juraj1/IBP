@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <iostream>
+#include <sys/time.h>
 
 #include "../receiver/resender.h"
 
@@ -46,14 +47,29 @@ void send(){
         return;
     }
 
-    alt_t a;
-    char buffer[sizeof(double)];
-    while(1){
-        a.d_rcv = 99.9;
-        memcpy(&buffer, &a.rcv, sizeof(long));
+    struct timeval tv;
+   
+    packet_t packet;
+    memset(&packet, 0x0, sizeof(packet_t));
+    packet.altitude = 100;
 
-        usleep(100000);
-        if(-1 == sendto(sock, &buffer, sizeof(buffer), 0, (struct sockaddr *)&dst, sizeof(struct sockaddr))){
+
+    while(1){
+        if(packet.altitude > 20){
+            usleep(10000);
+            --(packet.altitude);
+        }
+        else{
+            usleep(100000);
+            packet.altitude -= 0.1;
+        }
+        gettimeofday(&tv, NULL);
+        packet.timestamp = 1000000 * tv.tv_sec + tv.tv_usec;
+
+        if(0 >= packet.altitude){
+            packet.altitude = 100;
+        }
+        if(-1 == sendto(sock, &packet, sizeof(packet_t), 0, (struct sockaddr *)&dst, sizeof(struct sockaddr))){
           std::cerr << "Failed to send UDP datagram" << std::endl;
           continue;
         }

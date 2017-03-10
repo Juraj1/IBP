@@ -128,7 +128,8 @@ bool resender::receiver(){
      * protocol bytes:
      * | 1 | 2 | 3 | 4 | n = sizeof(double) |
      */
-    char buffer[sizeof(double)] = {0};
+    packet_t packet;
+    memset(&packet, 0x0, sizeof(packet_t));
     struct sockaddr_storage src_addr;
     socklen_t src_addr_len = sizeof(src_addr);
 
@@ -137,13 +138,13 @@ bool resender::receiver(){
     /* allow main control thread to run */
     m_run_mut.unlock();
     while(m_run){
-        ssize_t count = recvfrom(m_s, &buffer, sizeof(buffer), 0, (struct sockaddr*)&src_addr, &src_addr_len);
+        ssize_t count = recvfrom(m_s, &packet, sizeof(packet), 0, (struct sockaddr*)&src_addr, &src_addr_len);
         if (-1 == count){
             std::cerr << "Failed to get datagram " << std::endl;
-        }else if (count > (ssize_t)sizeof(buffer)){
+        }else if (count > (ssize_t)sizeof(packet)){
             std::cerr << "datagram too large for buffer: truncated" << std::endl;
         }else{
-            parser((void *)buffer);
+            parser(packet);
         }
     }
     
@@ -153,30 +154,54 @@ bool resender::receiver(){
 
 void resender::controller(){
     m_run_mut.lock();
-    double alt = 0;
+    packet_t packet;
+    memset(&packet, 0x0, sizeof(packet_t));
+    
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    unsigned long long old_time = 1000000 * tv.tv_sec + tv.tv_usec;
+    long long difference = 0;
+    
     while(m_run){
         /* empty check */
         if(m_q.empty()){
             continue;
         }
         /* get altitude and pop first item */
-        alt = m_q.pop();
+        packet = m_q.pop();
+        
+        difference = abs(packet.timestamp - old_time);
+        /* too old information, exiting */
+        if(DELTA_TIME < difference){
+            gettimeofday(&tv, NULL);
+            old_time = 1000000 * tv.tv_sec + tv.tv_usec;
+            continue;
+        }
+        gettimeofday(&tv, NULL);
+        old_time = 1000000 * tv.tv_sec + tv.tv_usec;
+        std::cout << packet.altitude << std::endl;
         paudio::initSound();
-        paudio::setFreq(420);
-        usleep(250000);
+
+        
+        /* flare hold altitude */
+        if(m_config.flare_height >= packet.altitude){
+            paudio::setFreq(300);
+            sleep(4);
+        } else {
+            paudio::setFreq(300);
+            usleep(packet.altitude * 25000);
+
+            paudio::setFreq(0);
+            usleep(packet.altitude * 25000);
+        }
         paudio::beep(523, 200);
         paudio::stopSound();
-
     }
 }
 
-bool resender::parser(void *buff){
-    /* get altitude */
-    alt_t a;
-    memcpy(&(a), buff, sizeof(long));
-
+bool resender::parser(packet_t packet){
     /* push data into Q */
-    m_q.push(a.d_rcv);
+    m_q.push(packet);
 
     return false;
 }
