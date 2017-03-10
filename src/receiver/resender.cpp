@@ -20,6 +20,9 @@ resender::resender(){
     m_run_mut.lock();
 }
 
+resender::~resender(){
+}
+
 bool resender::read_config(){
     std::ifstream file;
     file.open("radar.conf");
@@ -158,7 +161,12 @@ void resender::controller(){
         }
         /* get altitude and pop first item */
         alt = m_q.pop();
-        std::cout << alt << std::endl;
+        paudio::initSound();
+        paudio::setFreq(420);
+        usleep(250000);
+        paudio::beep(523, 200);
+        paudio::stopSound();
+
     }
 }
 

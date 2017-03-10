@@ -22,8 +22,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 
 #include "threadSafety.h"
+#include "paudio.h"
 
 typedef enum class plane_type_e{
     A320 = 0,
@@ -57,6 +59,7 @@ public:
 
     /* methods */
     resender();
+    ~resender();
     /*
      * @brief reads config file
      * @return true on error

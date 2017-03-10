@@ -52,7 +52,7 @@ void send(){
         a.d_rcv = 99.9;
         memcpy(&buffer, &a.rcv, sizeof(long));
 
-        usleep(10000);
+        usleep(100000);
         if(-1 == sendto(sock, &buffer, sizeof(buffer), 0, (struct sockaddr *)&dst, sizeof(struct sockaddr))){
           std::cerr << "Failed to send UDP datagram" << std::endl;
           continue;
