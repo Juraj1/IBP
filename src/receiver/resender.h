@@ -29,6 +29,7 @@
 
 #include "threadSafety.h"
 #include "paudio.h"
+#include "typedefs.h"
 
 #define OFFSET_ALT_PART (1)
 #define OFFSET_TIMESTAMP_PART (OFFSET_ALT_PART + sizeof(double))
@@ -37,32 +38,6 @@
 
 #define DELTA_TIME 100000 /* [u sec] */
 
-typedef enum class plane_type_e{
-    A320 = 0,
-    B747,
-    C130,
-    GENERIC
-}plane_type_t;
-
-typedef union {
-    unsigned long rcv;
-    double d_rcv;
-}alt_t;
-
-typedef struct __attribute__ ((packed)) {
-    uint8_t flags;
-    double altitude;
-    unsigned long long timestamp;
-    uint64_t reserved;
-    uint8_t end_byte;
-}packet_t;
-
-typedef struct config_t{
-    plane_type_t plane_type;
-    double flare_init_height;
-    double flare_height;
-    uint16_t port;
-}cfg_t;
 
 class resender{
 public:
