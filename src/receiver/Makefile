@@ -6,6 +6,7 @@ OBJFILES=	paudio.o\
 BINARY=IBP
 DEPLIBS=threadSafety.h\
 		paudio.h\
+		typedefs.h\
 		resender.h
 		
 
