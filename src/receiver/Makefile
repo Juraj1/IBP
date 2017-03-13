@@ -17,7 +17,7 @@ $(BINARY):$(OBJFILES)
 	${CC} -c  ${CFLAGS} $< -o $@ 
 	
 clean:
-	rm -rf *.o
+	rm -rf *.o *.d
 	
 purge:clean
 	rm -rf ${BINARY}
