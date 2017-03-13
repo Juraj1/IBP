@@ -189,7 +189,7 @@ void resender::controller(){
         }
         gettimeofday(&tv, NULL);
         old_time = 1000000 * tv.tv_sec + tv.tv_usec;
-        std::cout << packet.altitude << std::endl;
+        std::cout << packet.altitude << "\t[m]" << std::endl;
         
         /* above flare init */
         if (m_config.flare_init_height <= packet.altitude){

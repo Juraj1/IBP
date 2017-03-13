@@ -23,7 +23,6 @@ void send(){
     dst.sin_family = AF_INET;
     /* ipv4: 127.0.0.1 */
     dst.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    /* connect to port defined in config file */
     dst.sin_port = htons(1337);
 
     struct sockaddr_in src;
@@ -33,7 +32,6 @@ void send(){
     src.sin_family = AF_INET;
     /* ipv4: 127.0.0.1 */
     src.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    /* connect to port defined in config file */
     src.sin_port = htons(1338);
 
     int sock = socket(AF_INET, SOCK_DGRAM, 0);

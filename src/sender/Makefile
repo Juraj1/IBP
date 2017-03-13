@@ -2,8 +2,7 @@ BINARY=sender
 OBJFILES=main.o
 CC=g++
 CFLAGS=-std=c++11 -ggdb -Wall -pedantic -Wextra
-DEPLIBS= ../receiver/typedefs.h\
-		../receiver/resender.h
+DEPLIBS= ../receiver/typedefs.h
 
 ${BINARY}:${OBJFILES}
 	${CC} ${OBJFILES} -o ${BINARY}
