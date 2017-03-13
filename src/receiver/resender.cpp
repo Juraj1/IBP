@@ -191,7 +191,7 @@ void resender::controller(){
         old_time = 1000000 * tv.tv_sec + tv.tv_usec;
         std::cout << packet.altitude << std::endl;
         
-        /* flare hold altitude */
+        /* above flare init */
         if (m_config.flare_init_height <= packet.altitude){
             paudio::setFreq(200);
             usleep(packet.altitude * timeCoef);
@@ -199,6 +199,7 @@ void resender::controller(){
             paudio::setFreq(0);
             usleep(packet.altitude * timeCoef);
         }
+        /* above flare, but below init phase */
         else if(m_config.flare_height <= packet.altitude){
             paudio::setFreq(250);
             usleep(packet.altitude * timeCoef);
@@ -206,6 +207,7 @@ void resender::controller(){
             paudio::setFreq(0);
             usleep(packet.altitude * timeCoef);
         } 
+        /* in flare */
         else{
             paudio::setFreq(350);
             sleep(5);
