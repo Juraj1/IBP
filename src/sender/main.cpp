@@ -51,7 +51,7 @@ void send(){
    
     packet_t packet;
     memset(&packet, 0x0, sizeof(packet_t));
-    packet.altitude = 100;
+    packet.altitude = 50;
 
 
     while(1){
@@ -61,7 +61,7 @@ void send(){
         }
         else{
             usleep(100000);
-            packet.altitude -= 0.1;
+            packet.altitude -= 0.05;
         }
         gettimeofday(&tv, NULL);
         packet.timestamp = 1000000 * tv.tv_sec + tv.tv_usec;

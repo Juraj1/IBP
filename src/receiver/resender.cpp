@@ -18,9 +18,11 @@ resender::resender(){
     memset(&m_config, 0, sizeof(cfg_t));
     m_run = false;
     m_run_mut.lock();
+    paudio::initSound();
 }
 
 resender::~resender(){
+    paudio::stopSound();
 }
 
 bool resender::read_config(){
@@ -161,6 +163,14 @@ void resender::controller(){
     gettimeofday(&tv, NULL);
     unsigned long long old_time = 1000000 * tv.tv_sec + tv.tv_usec;
     long long difference = 0;
+    int timeCoef = 0;
+    if(m_config.flare_height >= 3){
+        timeCoef = 25000 / (m_config.flare_height / 2);
+    } 
+    else {
+        timeCoef = 25000 / (m_config.flare_height);
+    }
+    
     
     while(m_run){
         /* empty check */
@@ -169,7 +179,7 @@ void resender::controller(){
         }
         /* get altitude and pop first item */
         packet = m_q.pop();
-        
+
         difference = abs(packet.timestamp - old_time);
         /* too old information, exiting */
         if(DELTA_TIME < difference){
@@ -180,22 +190,27 @@ void resender::controller(){
         gettimeofday(&tv, NULL);
         old_time = 1000000 * tv.tv_sec + tv.tv_usec;
         std::cout << packet.altitude << std::endl;
-        paudio::initSound();
-
         
         /* flare hold altitude */
-        if(m_config.flare_height >= packet.altitude){
-            paudio::setFreq(300);
-            sleep(4);
-        } else {
-            paudio::setFreq(300);
-            usleep(packet.altitude * 25000);
+        if (m_config.flare_init_height <= packet.altitude){
+            paudio::setFreq(200);
+            usleep(packet.altitude * timeCoef);
 
             paudio::setFreq(0);
-            usleep(packet.altitude * 25000);
+            usleep(packet.altitude * timeCoef);
+        }
+        else if(m_config.flare_height <= packet.altitude){
+            paudio::setFreq(250);
+            usleep(packet.altitude * timeCoef);
+
+            paudio::setFreq(0);
+            usleep(packet.altitude * timeCoef);
+        } 
+        else{
+            paudio::setFreq(350);
+            sleep(5);
         }
         paudio::beep(523, 200);
-        paudio::stopSound();
     }
 }
 

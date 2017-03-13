@@ -7,6 +7,12 @@
  * date:   spring 2017
  */
 
+/* flag definitions */
+#define ERR_OK 0x00
+#define ERR_RADAR_HW 0x01
+#define ERR_RADAR_SW 0x02
+#define ERR_CONNECTION 0x03
+
 typedef enum class plane_type_e{
     A320 = 0,
     B747,

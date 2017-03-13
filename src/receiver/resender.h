@@ -36,7 +36,7 @@
 #define OFFSET_RESERVED_PART (OFFSET_TIMESTAMP_PART + 8)
 #define OFFSET_END (OFFSET_RESERVED_PART + 1)
 
-#define DELTA_TIME 100000 /* [u sec] */
+#define DELTA_TIME 150000 /* [u sec] */
 
 
 class resender{
