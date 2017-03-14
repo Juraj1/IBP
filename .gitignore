@@ -7,3 +7,5 @@ src/sender/CMakeLists.txt
 nbproject
 src/receiver/IBP
 src/sender/sender
+src/receiver/*.dep
+src/sender/*.dep
