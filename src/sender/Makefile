@@ -1,23 +1,26 @@
 CC=g++
-CFLAGS= -std=c++11 -Wall -pedantic -ggdb
+INCLUDE=-I../include/
+CFLAGS= -std=c++11 -Wall -pedantic -ggdb $(INCLUDE)
 SOURCES=$(shell find -name "*.cpp" | sed 's/\.\///')
 OBJFILES=$(SOURCES:.cpp=.o)
 BINARY=sender
-HEADERS=threadSafety.h typedefs.h
 DEPS=$(OBJFILES:.o=.dep)
 
 all:$(BINARY)
 
 ifneq ($(MAKECMDGOALS), clean)
-    -include $(DEPS)
+ifneq ($(MAKECMDGOALS), purge)
+-include $(DEPS)
+endif
 endif
 
 $(BINARY):$(OBJFILES)
 	@echo "Linking $(BINARY)"; \
 	${CC} ${OBJFILES} -lpthread -lportaudio -o ${BINARY}
 
-%.dep:$(SOURCES)
-	@$(CC) $(CFLAGS) -MM $*.cpp| sed -e 's@^\(.*\)\.o:@\1.dep \1.o:@' > $@ 
+%.dep:%.cpp
+	@echo "Generating dependencies for $<"; \
+	$(CC) $(CFLAGS) -MM $< -MF $*.dep
 	
 	
 %.o:%.cpp

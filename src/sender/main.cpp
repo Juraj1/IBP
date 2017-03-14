@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sys/time.h>
 
-#include "../receiver/typedefs.h"
+#include "typedefs.h"
 
 /* 
  * sender testing program for data suply
