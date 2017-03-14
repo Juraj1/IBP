@@ -9,3 +9,5 @@ src/receiver/IBP
 src/sender/sender
 src/receiver/*.dep
 src/sender/*.dep
+src/nbproject
+beeper.c
