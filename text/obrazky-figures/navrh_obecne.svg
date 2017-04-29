@@ -23,6 +23,20 @@
        orient="auto"
        refY="0.0"
        refX="0.0"
+       id="marker4884"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path4631"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
        id="marker5162"
        style="overflow:visible;"
        inkscape:isstock="true">
@@ -99,16 +113,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="293.70217"
-     inkscape:cy="378.20223"
+     inkscape:zoom="0.7"
+     inkscape:cx="440.32429"
+     inkscape:cy="333.11478"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1918"
-     inkscape:window-height="1172"
-     inkscape:window-x="1366"
-     inkscape:window-y="0"
+     inkscape:window-width="1364"
+     inkscape:window-height="692"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -118,7 +132,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -126,129 +140,185 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4136"
-       width="602.14288"
-       height="505.71429"
-       x="65.714287"
-       y="488.07651" />
     <g
-       id="g5092">
+       id="g4891"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
       <rect
-         y="515.2193"
-         x="93.571426"
-         height="91.428574"
-         width="257.14285"
-         id="rect4138"
+         y="488.07651"
+         x="65.714287"
+         height="505.71429"
+         width="602.14288"
+         id="rect4136"
+         style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <g
+         id="g5092">
+        <rect
+           style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="rect4138"
+           width="257.14285"
+           height="91.428574"
+           x="93.571426"
+           y="515.2193" />
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+           d="m 219.70844,394.62445 -5.2e-4,117.18206"
+           id="path4140"
+           inkscape:connector-curvature="0" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           x="115.71429"
+           y="383.79077"
+           id="text4482"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan4484"
+             x="115.71429"
+             y="383.79077"
+             style="font-size:25px">Analogový signál</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           x="224.93861"
+           y="550.21936"
+           id="text4486"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan4488"
+             x="224.93861"
+             y="550.21936"
+             style="font-size:25px;text-align:center;text-anchor:middle">FPGA</tspan><tspan
+             sodipodi:role="line"
+             x="224.93861"
+             y="581.46936"
+             id="tspan4490"
+             style="font-size:25px;text-align:center;text-anchor:middle">A/D převodník</tspan></text>
+        <rect
+           style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="rect4492"
+           width="257.14282"
+           height="221.42859"
+           x="94.285713"
+           y="657.36218" />
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.17514384px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4502)"
+           d="m 220.94329,606.38558 0.24738,48.69112"
+           id="path4494"
+           inkscape:connector-curvature="0" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           x="292.26004"
+           y="625.93359"
+           id="text5028"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan5030"
+             x="292.26004"
+             y="625.93359"
+             style="font-size:18.75px;text-align:center;text-anchor:middle">Navzorkovaný</tspan><tspan
+             sodipodi:role="line"
+             x="292.26004"
+             y="649.37109"
+             id="tspan5032"
+             style="font-size:18.75px;text-align:center;text-anchor:middle">signál</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           x="224.09598"
+           y="742.36224"
+           id="text5053"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan5055"
+             x="228.07547"
+             y="742.36224"
+             style="font-size:25px;text-align:center;text-anchor:middle">Analyzátor </tspan><tspan
+             sodipodi:role="line"
+             x="228.07547"
+             y="773.61224"
+             id="tspan5057"
+             style="font-size:25px;text-align:center;text-anchor:middle">vzorků </tspan><tspan
+             sodipodi:role="line"
+             x="224.09598"
+             y="804.86224"
+             id="tspan5059"
+             style="font-size:25px;text-align:center;text-anchor:middle">signálu</tspan></text>
+      </g>
+      <rect
+         y="514.84424"
+         x="412.30875"
+         height="363.94653"
+         width="201.26266"
+         id="rect5112"
          style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
-         id="path4140"
-         d="m 219.70844,394.62445 -5.2e-4,117.18206"
-         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+         id="path5114"
+         d="m 512.18294,935.97084 0.29699,-54.43937"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.98216158px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker5122)" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5114-7"
+         d="m 217.48284,935.7421 -0.64829,-57.13917"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path6319"
+         d="m 216.91187,935.67898 295.71451,-0.0533"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <text
          sodipodi:linespacing="125%"
-         id="text4482"
-         y="383.79077"
-         x="115.71429"
+         id="text4606"
+         y="958.37231"
+         x="365.30515"
+         style="font-style:normal;font-weight:normal;font-size:22.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+         xml:space="preserve"><tspan
+           style="font-size:22.5px;text-align:center;text-anchor:middle;"
+           y="958.37231"
+           x="369.28464"
+           id="tspan4608"
+           sodipodi:role="line">Komunikace pomocí </tspan><tspan
+           id="tspan4610"
+           style="font-size:22.5px;text-align:center;text-anchor:middle;"
+           y="989.62231"
+           x="365.30515"
+           sodipodi:role="line">BSD schránek</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4616"
+         y="680.07568"
+         x="513.02881"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:17.5px;text-align:center;text-anchor:middle"
+           y="680.07568"
+           x="515.81445"
+           id="tspan4618"
+           sodipodi:role="line">Modul pro komunikaci </tspan><tspan
+           style="font-size:17.5px;text-align:center;text-anchor:middle"
+           id="tspan4620"
+           y="701.95068"
+           x="513.02881"
+           sodipodi:role="line">s uživatelem</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path4622"
+         d="m 513.03046,515.05347 0,-120"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4884)" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4887"
+         y="382.63107"
+         x="398.00012"
          style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          xml:space="preserve"><tspan
            style="font-size:25px"
-           y="383.79077"
-           x="115.71429"
-           id="tspan4484"
-           sodipodi:role="line">Analogový signál</tspan></text>
-      <text
-         sodipodi:linespacing="125%"
-         id="text4486"
-         y="550.21936"
-         x="224.93861"
-         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           style="font-size:25px;text-align:center;text-anchor:middle"
-           y="550.21936"
-           x="224.93861"
-           id="tspan4488"
-           sodipodi:role="line">FPGA</tspan><tspan
-           style="font-size:25px;text-align:center;text-anchor:middle"
-           id="tspan4490"
-           y="581.46936"
-           x="224.93861"
-           sodipodi:role="line">A/D převodník</tspan></text>
-      <rect
-         y="657.36218"
-         x="94.285713"
-         height="221.42859"
-         width="257.14282"
-         id="rect4492"
-         style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path4494"
-         d="m 220.94329,606.38558 0.24738,48.69112"
-         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.17514384px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4502)" />
-      <text
-         sodipodi:linespacing="125%"
-         id="text5028"
-         y="625.93359"
-         x="292.26004"
-         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           style="font-size:18.75px;text-align:center;text-anchor:middle"
-           y="625.93359"
-           x="292.26004"
-           id="tspan5030"
-           sodipodi:role="line">Navzorkovaný</tspan><tspan
-           style="font-size:18.75px;text-align:center;text-anchor:middle"
-           id="tspan5032"
-           y="649.37109"
-           x="292.26004"
-           sodipodi:role="line">signál</tspan></text>
-      <text
-         sodipodi:linespacing="125%"
-         id="text5053"
-         y="742.36224"
-         x="224.09598"
-         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           style="font-size:25px;text-align:center;text-anchor:middle"
-           y="742.36224"
-           x="228.07547"
-           id="tspan5055"
-           sodipodi:role="line">Analyzátor </tspan><tspan
-           style="font-size:25px;text-align:center;text-anchor:middle"
-           id="tspan5057"
-           y="773.61224"
-           x="228.07547"
-           sodipodi:role="line">vzorků </tspan><tspan
-           style="font-size:25px;text-align:center;text-anchor:middle"
-           id="tspan5059"
-           y="804.86224"
-           x="224.09598"
-           sodipodi:role="line">signálu</tspan></text>
+           y="382.63107"
+           x="398.00012"
+           id="tspan4889"
+           sodipodi:role="line">Výstupy pro pilota</tspan></text>
     </g>
-    <rect
-       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect5112"
-       width="201.26266"
-       height="363.94653"
-       x="412.30875"
-       y="514.84424" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.98216158px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker5122)"
-       d="m 512.18294,935.97084 0.29699,-54.43937"
-       id="path5114"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 217.48284,935.7421 -0.64829,-57.13917"
-       id="path5114-7"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 216.91187,935.67898 295.71451,-0.0533"
-       id="path6319"
-       inkscape:connector-curvature="0" />
   </g>
 </svg>
