@@ -187,6 +187,11 @@
 	\section{Výstupní zařízení}
 		Náš systém musí pilotovi nějak interpretovat sesbíraná data, jinak by byl zbytečný. Způsob komunikace musí být tak detailní, aby dokázal předat informace o~výšce nad~zemí a~zároveň dostatečně jednoduchý, aby pilot mohl data ze~systému zpracovat rychle a~efektivně aniž by výstupní zařízení odvádělo pozornost od~právě prováděných úkonů. Jedna z~možností je použití zvukových signálů, druhá je zobrazování aktuálních informací na přístrojové desce letounu. Zde si musíme položit otázku, jaký z~těchto způsobů zvolíme. Zobrazení dat na přístrojové desce nabízí možnost jejich nejpřesnější interpretace, bohužel bude odvádět pozornost pilota a~zvyšuje se riziko nehody. Jako další nevýhodu autor vidí zbytečně zabraný prostor, jehož přidaná hodnota po osazení přístrojem pro zobrazovaní dat není dostatečná pro naše použití. 
 			
+	\section{Vstupní zařízení}		
+		Pilot musí být schopen zařízení také ovládat. Proto se musíme zamyslet nad možnými ovládacími prvky.
+		Zařízení budeme muset nějak zapnout a kalibrovat. Máme dvě možnosti. Buď se zařízení bude zapínat a vypínat automaticky zároveň s motorem, nebo jej bude moci pilot ovládat. Autor se přiklání k možnosti ovládání pilotem, jelikož v pozdějších fázích výuky může být asistence našeho systému nežádoucí. Přesně si to určí až zákazník.\par
+		Zákazník jistě bude chtít modul také kalibrovat. Zde si musíme uvědomit, že kalibrace se může úspěšně provést pouze, když letadlo stojí na zemi v klidu. Dochází totiž k nastavení referenční hodnoty výšky zařízení nad dráhou a není žádoucí aby se kalibrace prováděla ve vzduchu. Možné následky jsme si již uváděli. Spuštění musí být jednoduché a zároveň k němu nesmí dojít náhodou. Proto se nabízí možnost krytého tlačítka. Inspirovat se můžeme u stíhacích letounů, kdy při odklopení krytky dochází k odjištění zbraní. Finální podobu si opět určí zákazník.
+	
 	\section{Software}\label{navrhReseni::software}
 		Zde si musíme připomenout, že~našim úkolem není zpracování signálu. Program pro obsluhu generování informací pro pilota musí být rychlý, spolehlivý a relativně nenáročný na výpočetní výkon.
 		
@@ -198,19 +203,39 @@
 
 		\paragraph{Architektura modulu}
 		Vzhledem k~modelu klient-server musíme zabezpečit paralelní příjímání zpráv a následné vykonání události na základě přijaté zprávy. Kvůli tomuto požadavku nemůžeme využít přímé jedno vláknové zpracování, jelikož obsluha hardware je blokující a docházelo by ke zpoždění, které by akumulací starých paketů vyústilo v~neaktuální až nebezpečné informace. Paket zpožděný o~půl sekundy může mít katastrofální následky. Uveďme příklad. Je léto, slunné počasí a ve stínu je teplota 37 stupňů Celsia. Pilot provádí přiblížení před přistáním na betonové, případně asfaltové dráze. Vzhledem k~rozdílným teplotám vzduchu nad trávou a betonem, případně asfaltem, může při příletu nad dráhu dojít k~prudkému propadu letadla kvůli rozdílným hustotám teplého a studenějšího vzduchu. Tyto propady bývají rychlé a je nutné na ně rychle reagovat a nezmatkovat. Při špatné reakci může dojít k~poškození stroje v~tom lepším případě, a k zranění posádky a pasažérů v~tom horším případě. Ani jedna možnost není žádoucí, proto potřebujeme pracovat pouze s~aktuálními informacemi. V~případě blokujících operací, by mohlo dojít k značnému zpoždění a tedy i škodám. Proto přistoupíme k více vláknovému řešení.\par
-		Při práci s více vlákny si musíme dávat pozor na zabezpečení komunikace a musíme zachovat konzistenci dat.
+		Při práci s více vlákny si musíme dávat pozor na zabezpečení komunikace a musíme zachovat konzistenci dat. Data se předávají mezi vlákny pomocí fronty. Aby bylo jasné, kdo k ní může přistupovat, musí být vhodně zabezpečena a tudíž využijeme mutexy. Jedno vlákno ve bude ve smyčce přijímat zprávy a vkládat je do fronty. Druhé vlákno je z fronty vyjme a provede náležité operace.\par
 		
 	\section{Komunikační protokol}\label{navrhReseni::protokol}	
-	
-	\section{Umístění na letadle}\label{navrhReseni::umisteniNaLetadle}
-		Zařízení musí být na~letadle umístěno tak, ať~je šance poškození přístroje při tvrdším přistání minimální a~zároveň musí být měření konzistentní. Toto vylučuje umístění přístroje na~konci křídel. Může dojít k~odření křídla o~zem při přílišném naklonění, navíc bude muset být provedena velká korekce výšky a~může dojít k~změnám detekované výšky při náklonech letadla, taky dojde k~narušení aerodynamického tvaru křídla. Ideální by bylo umístit senzor na pneumatiky jednoho z~kol hlavního podvozku, bohužel velice rychle zjistíme, že~je to nevhodné řešení z~důvodů jednorázového použití radaru. Jako vhodné možnosti se jeví umístění:
-		\begin{itemize}
-			\item na~nohu podvozku za předpokladu, že~se na~ni zařízení vejde(v případě zatažitelného podvozku). Při umístění na~pevný podvozek je třeba zamezit možnosti vzniku poškození následkem otřesů při tvrdém přistání. 
-			\item na~spodní část kořene křídla, kde~nebude moment síly způsobující rotaci letadla ve~vodorovné ose tak velký, jako na konci křídla. Otřesy, které~bude muset zařízení snášet nebudou tak velké jako na noze hlavního podvozku. Bohužel zde zůstává nutnost korekce podle výšky kořene letadla nad~rovinou podvozku.
-			\item na trup letadla, toto bohužel bude vyžadovat vrtání do trupu a~tudíž úpravu konstrukce letadla.
-			\item do trupu letadla, ideálně do~odpružené schránky s~dvířky, která by se otevřela při spuštění radaru při náletu na přistání. Opět zde je otázka modifikace konstrukce letadla.
-		\end{itemize} 
-		Note: Asi bude nejlepší přilepit to na nohu, ať nemusíme vrtat, to je třeba zkonzultovat s~majitelem letadla. Ostaní možnosti jsou příliš drahé.
+		Aby byly dva moduly schopny komunikovat nějakým rozumným způsobem, potřebujeme komunikační protokol.
+		U návrhu komunikačního protokolu je třeba zjistit co přesně potřebujeme a pozastavit se nad možnými rozšířeními do budoucna. Mohlo by se zdát, že jedinou potřebnou informací je výška letadla nad terénem. Bohužel tomu tak není. Ano, výška nad terénem je nejdůležitější přenášená informace, ale sama o sobě je nám k ničemu. S danou výškou potřebujeme přenést i časovou informaci, kdy byla výška odeslána abychom mohli zajistit práci pouze s aktuálními informacemi, jak již bylo zmíněno výše. Nyní se ovšem musíme zamyslet, jakým směrem se vývoj zařízení bude ubírat. Tato práce není pouze pro uspokojení akademiků, ale v jejím závěru a v následném vývoji má vzniknout konkurenceschopný výrobek pro trh. Proto můžeme předpokládat výrazný a rychlý vývoj. Pravděpodobně v některé následující iteraci vývoje dojde k rozšíření o informace, v jakém stavu se radar nachází. Jako dobrý krok se jeví také přidání několika bajtů pro zatím neznámé účely.\par
+		Finální verze protokolu bude obsahovat příznaky pro přenos stavových informací o velikosti jednoho bajtu a výšku nad terénem, která bude v datovém typu \texttt{double}, jeho velikost se bude lišit podle platformy, na které budou programy spuštěny. Nesmíme zapomenout na časové razítko pro identifikaci neaktuálních zpráv, rezervovaný prostor o velikosti osmi bajtů a nakonec ukončující bajt nastaven na nulu. Výsledek můžeme vidět na obrázku \ref{navrh::protokol}
+		
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[scale=0.7]{obrazky-figures/protokol.png}
+				\caption{Komunikační protokol včetně velikostí jednotlivých částí}
+				\label{navrh::protokol}
+			\end{center}
+		\end{figure}
+		
 
+		
+		
+	\section{Umístění na letadle}\label{navrhReseni::umisteniNaLetadle}
+		Nyní se zamysleme nad možnostmi umístění zařízení na letadle. Zařízení musí být na~letadle umístěno tak, ať~je šance poškození přístroje při tvrdším přistání minimální, zároveň musí být měření konzistentní a musí být chráněno i proti povětrnostním podmínkám. Toto vylučuje umístění přístroje na~konci křídel. Může dojít k~odření křídla o~zem při přílišném naklonění, navíc bude muset být provedena velká korekce výšky a~může dojít k~změnám detekované výšky při náklonech letadla, taky dojde k~narušení aerodynamiky křídla, kdy letadlo bude mít tendence stáčet se za křídlem, na kterém se zařízení nachází. Ideální by bylo umístit senzor na pneumatiky jednoho z~kol hlavního podvozku, bohužel velice rychle zjistíme, že~je to nevhodné řešení z~důvodů jednorázového použití radaru. Jako další vhodné možnosti se jeví umístění:
+		\begin{itemize}
+			\item s odsazením na~nohu podvozku za předpokladu, že~se na~ni zařízení vejde(v případě zatažitelného podvozku). Při umístění na~pevný podvozek je třeba zamezit možnosti vzniku poškození následkem tvrdého přistání a špatného počasí. 
+			\item na~spodní část kořene křídla, kde~nebude moment síly způsobující rotaci letadla ve~vodorovné ose tak velký, jako na konci křídla. Otřesy, které~bude muset zařízení snášet nebudou tak velké jako na noze hlavního podvozku. Stále je třeba myslet na ochranu proti špatnému počasí. Další nevýhoda je nutnost vrtání do trupu či křídla kvůli ukotvení. Bohužel zde zůstává nutnost korekce podle výšky kořene letadla nad~rovinou podvozku.
+			\item na trup letadla, toto bohužel bude vyžadovat vrtání do trupu a~tudíž úpravu konstrukce letadla. Samozřejmostí pak musí být kalibrace modulu, stejně jako výše.
+			\item do trupu letadla, ideálně do~odpružené schránky ať se zařízení nepoškodí. Zde je třeba vzít v úvahu materiál trupu letadla a jeho propustnost elektromagnetického záření případně. Zároveň je třeba zachovat možnost snadného přístupu k zařízení. S touto možností je třeba počítat již při návrhu letadla. Tudíž bude finančně nákladná.
+		\end{itemize} 
+		Pro testování bude vhodné uchycení na nohu s odsazením, jelikož bude vyžadovat nejmenší zásahy do konstrukce letadla, bude k zařízení snadný přístup a hlavně bude nejlevnější.
+		Naopak pro produkční modely již bude vhodné zakomponovat tento výškoměr do letadla. To už záleží na zákazníkovi.
+		
+		
+\chapter{Implementace}
+	TODO
+\chapter{Závěr}
+	TODO
 
 %=========================================================================
