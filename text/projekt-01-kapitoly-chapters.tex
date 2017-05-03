@@ -4,17 +4,15 @@
 \newtheorem{definice}{Definice}
 
 \chapter{Úvod}\label{uvod}
-	Výškoměr je jedním z~nepostradatelných přístrojů pro navigaci za letu. Je důležité aby fungoval správně ve~všech situacích, jelikož~chyba v~měření může znamenat havárii letadla. V~lepším případě dojde "pouze" ke~škodám na~majetku, v~horším případě může dojít i~ke~ztrátám na~životech. Plní nezastupitelnou úlohu, díky níž mohou piloti bezpečně létat i~za~špatné viditelnosti.
+	Výškoměr je jedním z~nepostradatelných přístrojů pro navigaci za letu. Je důležité aby fungoval správně ve~všech situacích, jelikož~chyba v~měření může znamenat havárii letadla. V~lepším případě dojde "pouze" ke~škodám na~majetku, v~horším případě může dojít i~ke~ztrátám na~životech. Plní nezastupitelnou úlohu, díky níž mohou piloti bezpečně létat i~za~špatné viditelnosti.\par
 	
-	\section{Motivace}\label{uvod::motivace}
-		Motivace pro tuto práci je zvýšení bezpečnosti a~ulehčení výcviku začínajících pilotů. Jde hlavně o~ulehčení výuky přistání, která začátečníkovi může způsobovat potíže. Jedná se primárně o~výuku dosednutí(anglicky "flare"), kdy musí student stáhnout výkon motoru a~přitáhnutím uvést letoun do~horizontálního letu, ideálně několik centimetrů nad dráhou. Student pomalu přitahuje knipl, tímto~zvyšuje úhel náběhu a~letadlo postupně zpomaluje. V~okamžiku, kdy je úhel náběhu příliš velký a~rychlost letadla moc nízká, křídla ztratí vztlak a~letadlo dosedne na dráhu. Pokud student udržuje letadlo v~horizontálním letu nad dráhou ve~velké výšce, může být dosednutí tvrdší, než na~které~je stavěn podvozek, a~může dojít k~poškození podvozku či~zranění posádky i~cestujících.
-	
-	\section{Cíle}\label{uvod::cile}
+	Motivace pro tuto práci je zvýšení bezpečnosti a~ulehčení výcviku začínajících pilotů. Jde hlavně o~ulehčení výuky přistání, která začátečníkovi může způsobovat potíže. Jedná se primárně o~výuku dosednutí(anglicky "flare"), kdy musí student stáhnout výkon motoru a~přitáhnutím uvést letoun do~horizontálního letu, ideálně několik centimetrů nad dráhou. Student pomalu přitahuje knipl, tímto~zvyšuje úhel náběhu a~letadlo postupně zpomaluje. V~okamžiku, kdy je úhel náběhu příliš velký a~rychlost letadla moc nízká, křídla ztratí vztlak a~letadlo dosedne na dráhu. Pokud student udržuje letadlo v~horizontálním letu nad dráhou ve~velké výšce, může být dosednutí tvrdší, než na~které~je stavěn podvozek, a~může dojít k~poškození podvozku či~zranění posádky i~cestujících.\par
+		
 	Cílem této práce není, jak se může zdát, zpracování signálů. Prvním cílem této práce je úvod historie vývoje avioniky, hlavně výškoměrů. Druhým cílem je úvod do problematiky měření výšky již od jejího počátku. Dále bude čtenář stručně seznámen s~vývojem radarů, dozví se, jak se radary dělí a~k~čemu se jednotlivé typy využívají.
-	Třetím cílem je popis problému výuky přistání a~důvod pro zadání této práce, jakožto i~jejího řešení. Dalším cílem je návrh takového systému, který~splní veškeré požadavky na bezpečnost letového provozu na letištích, zvýší bezpečnost výuky přistání a~samozřejmě zjednoduší samotnou výuku. V~ideálním případě dojde i~k~implementaci a~vzniku samotného systému, jeho integrace do letadla a~úspěšnému otestování.
+	Třetím cílem je popis problému výuky přistání a~důvod pro zadání této práce, jakožto i~jejího řešení. Dalším cílem je návrh takového systému, který~splní veškeré požadavky na bezpečnost letového provozu na letištích, zvýší bezpečnost výuky přistání a~samozřejmě zjednoduší samotnou výuku. V~ideálním případě dojde i~k~implementaci a~vzniku samotného systému, jeho integrace do letadla a~úspěšnému otestování.\par
 
 
-\chapter{Historie}
+\chapter{Vývoj avioniky}
 	\section{Vývoj přístrojů}
 	
 		V~roce 1903 bratři Wrightové uskutečnili první řízený motorový let. Trval jen chvíli, ale~byl to~přelom v~technologii dopravy. Tímto začala éra letectví. Za první světové války, kdy došlo k~prvnímu masivnímu rozšíření letadel,  ať~již k~průzkumným účelům, bombardování nebo~vzdušným soubojům byli piloti omezeni počasím a~za špatného počasí nemohli létat, jelikož neexistovala technologie, která by umožnila pilotovi nespoléhat pouze na svůj zrak a~navigovat za letu i~jinak, než~pouze vizuálně. Toto vedlo ke~snahám vyvinout systém, který~by~umožňoval navigaci za~jakýchkoliv podmínek. Za~jasného slunečného počasí nebo třeba v~bouřce.\par
@@ -71,7 +69,7 @@
 			
 		Během studené války se radary výrazně zdokonalily. Zvětšil se jejich výkon a~zmenšila se jejich velikost. V~současné době se radary houfně využívají k~mírovým účelům, od~sledování počasí přes letectví či~posuny zemské kůry až po mapování.
 		
-\chapter{Teoretická část}
+\chapter{Použité technologie a teorie přistání}
 	
 	\section{Radary a~jejich dělení}\label{uvod::radary}
 		Radar (\textbf{RA}dio \textbf{D}etection \textbf{A}nd \textbf{R}anging) je systém pro detekci objektů, u~kterých~je pomocí rádiových vln schopen určit vzdálenost, azimut a~rychlost sledovaných objektů. Využití radarů je široké, od~mapování terénu, detekce osob přes měření rychlosti vozidel a~využití v~civilním letectví až~po~vojenské účely.	
@@ -137,7 +135,7 @@
 			\paragraph{Ovládací panel}
 				Nutnost kalibrace nás přivádí k~ovládacímu panelu modulu. Přístroj je třeba nějak zapnout, toto bude první přepínač. Dále vyvstává otázka nutnosti mít vždy zapnutou zvukovou signalizaci. Jelikož bude využití tohoto výškoměru při vzletu mizivé, bude dobré, když~bude mít pilot možnost vypnout zvukovou indikaci, která~v~situaci, kdy~ji není potřeba může působit rušivě. Proto může být přítomen přepínač ovládající tuto funkci. Jako třetí kontrolní prvek zvolíme tlačítko spouštějící kalibraci přístroje na referenční hodnotu země. Je nutné, abychom zabránili kalibraci výškoměru ve vzduchu, proto by mělo toto tlačítko být překryté víčkem. V~případě, že~bude koncipováno jako ovládací prvek na dotykovém displeji, za~pohybu letadla by mělo být deaktivované.
 				
-	\section{Fáze přistání}
+	\section{Teorie přistání}
 		Letadlo, které vzlétne, musí zpět na zem. Ideálně rozumným a~hlavně bezpečným způsobem. Není žádoucí, aby se jak letadlu, ale~hlavně pasažérům cokoliv přihodilo. Způsobilo by to nejen finanční ztráty. Proto je kladen velký důraz na výuku a~správné naučení přistávání.  
 
 		\begin{figure}[H]
@@ -233,7 +231,25 @@
 		Naopak pro produkční modely již bude vhodné zakomponovat tento výškoměr do letadla. To už záleží na zákazníkovi.
 		
 \chapter{Implementace}
+	V předchozí kapitole jsme si pověděli co budeme dělat. Nyní si řekneme jak to budeme dělat, co k tomu budeme potřebovat a proč to tak budeme dělat.\par
+	
+	\section{Systémové prerekvizity}
+	Abychom aplikaci vůbec spustili, musí na dodané platformě běžet operační systém. Mohli bychom dlouze polemizovat nad výhodami jednotlivých linuxových distrubucí, jestli vybrat binární nebo distribuovanou pomocí zdrojových kódů či vybrat podle balíčkovacího systému. Naštěstí toto nemusíme řešit, jelikož na cílové platformě je předinstalovaný operační systém OpenSUSE. Pro naše účely zcela postačuje.\par
+	Jako další potřebujeme ovladač pro externí zvukovou kartu připojenou pomocí USB. Kvůli jednoduchosti a jednostrannosti použijeme ovladač ALSA. Ovšem aby ALSA detekovala externí zvukovou kartu, musí ji správně detekovat systém. Proto je důležité zavedení modulu snd-usb-audio do jádra operačního systému. Bez tohoto modulu jádro vidí externí zvukovou kartu pouze jako neznámé USB zařízení.\par
+	
+	\section{Jazyk}
+	Abychom mohli vybrat konkrétní jazyk, musíme stanovit požadavky aplikace. Jak víme, každý jazyk má svá pro a proti.\par
+	Můžeme vybírat z několika paradigmat a z nich odvíjejících se vlastností a míry abstrakce. Také se musíme rozhodnout, jestli chceme jazyk překládaný, či interpretovaný. V našem případě potřebujeme jazyk, který umožňuje psát programy, které nespotřebovávají příliš mnoho výpočetního výkonu, poskytuje vysokou míru abstrakce a zároveň umožňuje psát nízko běžící programy. Dále musí dobře odladěné knihovny a podporu komunity. Do tohoto rámce zapadá jen několik jazyků. Pro jazyk Java mluví jeho schopnost fungovat na mnoha platformách, vysoká úroveň abstrakce a relativně jednoduchý vývoj software v tomto jazyce. Bohužel, jeho největší přednost fungovat na mnoha platformách je v našem případě jeho největší nevýhodou. Platformu známe a virtuální stroj potřebný ke spouštění bajtkódu(bytecode) má příliš vysoké nároky na procesorový čas. Dalším vhodným kandidátem se zdá být Python. Ve prospěch Pythonu mluví možnost neuvěřitelně rychlého vývoje. Další výhodou je velké množství knihoven poskytující výbornou podporu pro vývoj. Proti mluví fakt, že se jedná o interpretovaný jazyk, který sice lze přeložit do C/C++, ale stále nedosahuje rychlostí C/C++. Jeho další nevýhodou je Global Interpreter Lock, který omezuje paralelní zpracování dat, nemluvě o jeho vysoké spotřebě paměti, protože všechno je objekt.\par
+	Přikloňme se tedy k překládaným jazykům. Na první příčce rychlosti vykonávaného kódu sedí Assembler. Díky své nízké úrovni abstrakce a nízkoúrovňovému běhu poskytuje bezkonkurenční rychlost za předpokladu, že kód je správně napsán. Bohužel právě kvůli své nízké úrovni abstrakce je vývoj v tomto jazyce neúměrně náročný získanému výkonu. Další nevýhodou je jeho nepřenositelnost mezi platformami a v případě přechodu na novější verzi procesoru by se musely provést neúměrně velké zásahy do kódu.\par
+	Přikloňme se tedy k tzv. vysokoúrovňovému Assembleru, jazyku C/C++. Pro jazyk C/C++ svědčí jejich relativně vysoká úroveň abstrakce, relativně rychlý vývoj za zachování nízkých hardwarových nároků a podpora v podobě mnoha knihoven, modulů a frameworků. Tento jazyk mimo jiné podporuje pohodlnou implementaci vícevláknového zpracování dat, které jsme si navrhli v předchozí kapitole.
+	
+	\section{Použité knihovny}
 	TODO
+	
+	\section{Vícevláknová obsluha požadavků}
+	TODO
+	
+	
 \chapter{Závěr}
 	TODO
 
