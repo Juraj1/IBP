@@ -4,15 +4,20 @@
 \newtheorem{definice}{Definice}
 
 \chapter{Úvod}\label{uvod}
+	V posledních letech se letectví stává čím dál tím důležitějším a běžnějším. Ať už se jedná o bezmotorové jednomístné kluzáky, akrobatické či vyhlídkové ultralehké letouny anebo velké dopravní letadla. Rozmachu se dočkalo hlavně sportovní letectví, kdy s postupným vývojem nových technologií dochází ke zpřístupňování těch stávajících běžným občanům. S tímto rozmachem ruku v ruce přichází tlak na zefektivnění výuky létání. Jedním z možných způsobů je vyvinutí radarového výškoměru rozumných rozměrů s rozumným výkonem za rozumnou cenu pro výuku přistání.
+
 	Výškoměr je jedním z~nepostradatelných přístrojů pro navigaci za letu. Je důležité aby fungoval správně ve~všech situacích, jelikož~chyba v~měření může znamenat havárii letadla. V~lepším případě dojde "pouze" ke~škodám na~majetku, v~horším případě může dojít i~ke~ztrátám na~životech. Plní nezastupitelnou úlohu, díky níž mohou piloti bezpečně létat i~za~špatné viditelnosti.\par
 	
-	Motivace pro tuto práci je zvýšení bezpečnosti a~ulehčení výcviku začínajících pilotů. Jde hlavně o~ulehčení výuky přistání, která začátečníkovi může způsobovat potíže. Jedná se primárně o~výuku dosednutí(anglicky "flare"), kdy musí student stáhnout výkon motoru a~přitáhnutím uvést letoun do~horizontálního letu, ideálně několik centimetrů nad dráhou. Student pomalu přitahuje knipl, tímto~zvyšuje úhel náběhu a~letadlo postupně zpomaluje. V~okamžiku, kdy je úhel náběhu příliš velký a~rychlost letadla moc nízká, křídla ztratí vztlak a~letadlo dosedne na dráhu. Pokud student udržuje letadlo v~horizontálním letu nad dráhou ve~velké výšce, může být dosednutí tvrdší, než na~které~je stavěn podvozek, a~může dojít k~poškození podvozku či~zranění posádky i~cestujících.\par
+	Motivace pro tuto práci je zvýšení bezpečnosti a~ulehčení výcviku začínajících pilotů. Jde hlavně o~ulehčení výuky přistání, která začátečníkovi může způsobovat potíže. Jedná se primárně o~výuku dosednutí(anglicky "flare"), kdy musí student stáhnout výkon motoru a~přitáhnutím uvést letoun do~horizontálního letu. Pokud student udržuje letadlo v~horizontálním letu nad dráhou ve~velké výšce, může být dosednutí tvrdší, než na~které~je stavěn podvozek, a~může dojít k~poškození podvozku či~zranění posádky i~cestujících.\par
 		
 	Cílem této práce není, jak se může zdát, zpracování signálů. Prvním cílem této práce je úvod historie vývoje avioniky, hlavně výškoměrů. Druhým cílem je úvod do problematiky měření výšky již od jejího počátku. Dále bude čtenář stručně seznámen s~vývojem radarů, dozví se, jak se radary dělí a~k~čemu se jednotlivé typy využívají.
 	Třetím cílem je popis problému výuky přistání a~důvod pro zadání této práce, jakožto i~jejího řešení. Dalším cílem je návrh takového systému, který~splní veškeré požadavky na bezpečnost letového provozu na letištích, zvýší bezpečnost výuky přistání a~samozřejmě zjednoduší samotnou výuku. V~ideálním případě dojde i~k~implementaci a~vzniku samotného systému, jeho integrace do letadla a~úspěšnému otestování.\par
 
+	V následujících kapitolách budeme plnit cíle vytyčené v předchozím odstavci. Nejdříve se podíváme na vývoj přístrojů a jejich použití, vývoj měření tlaku a s jeho pomocí i měření výšky. Uvedeme si něco existujících radarových výškoměrech a jejich využití a zběžně si ukážeme vývoj radaru.\par
+	Po tomto zařazení do historického kontextu si popíšeme a vysvětlíme fungování jednotlivých technologií a přiblížíme si problematiku přistání.\par
+	Následuje návrh řešení našeho problému, kde analyzujeme zadání a pokusíme se dobrat optimálního řešení. Následně bude vysvětlena implementace navrženého řešení a v závěru shrneme výsledky této práce, její přínos a možnost dalšího pokračování.
 
-\chapter{Vývoj avioniky}
+\chapter{Historie avioniky}
 	\section{Vývoj přístrojů}
 	
 		V~roce 1903 bratři Wrightové uskutečnili první řízený motorový let. Trval jen chvíli, ale~byl to~přelom v~technologii dopravy. Tímto začala éra letectví. Za první světové války, kdy došlo k~prvnímu masivnímu rozšíření letadel,  ať~již k~průzkumným účelům, bombardování nebo~vzdušným soubojům byli piloti omezeni počasím a~za špatného počasí nemohli létat, jelikož neexistovala technologie, která by umožnila pilotovi nespoléhat pouze na svůj zrak a~navigovat za letu i~jinak, než~pouze vizuálně. Toto vedlo ke~snahám vyvinout systém, který~by~umožňoval navigaci za~jakýchkoliv podmínek. Za~jasného slunečného počasí nebo třeba v~bouřce.\par
@@ -87,11 +92,14 @@
 				\item \textbf{Pulsní}	-	Tomuto typu radarů postačuje pouze jedna anténa a~to z~toho důvodu, že~se radar periodicky přepíná mezi vysílacím režimem a~přijímacím režimem. Z~tohoto pramení nevýhoda tohoto typu radarů: minimální a~bez modulací i~maximální dosah. Minimální dosah radaru je určen rychlostí přepínaní mezi jednotlivými režimy. Pokud se vrátí ozvěna dříve, než~se radar přepne do~přijímacího režimu, radar objekt nedetekuje a~informace je ztracena. Obdobně to funguje i~u~maximálního dosahu. Radar musí zachytit ozvěnu před vysláním dalšího impulsu.
 				
 				\item \textbf{Kontinuálně vysílající}	-	Radary tohoto typu vysílají nepřerušovaně a~zároveň nepřerušovaně zpracovávají přijatou ozvěnu, proto potřebují jak vysílací, tak přijímací anténu. Tyto radary se dělí na:
+					
 					\begin{itemize}
 						\item Modulované - Tyto radary využívají frekvenční modulace signálu, díky které jsme schopni vypočítat vzdálenost z~ozvěny vysílaného signálu. Toto je typ radaru, kterým bude vybaveno naše zařízení.
 						
-						\item Nemodulované - Tyto radary vysílají konstantní signál, který~umožňuje pouze určení rychlosti zachycených objektů. Využívají se k~měření rychlosti různých objektů-
+						\item Nemodulované - Tyto radary vysílají konstantní signál, který~umožňuje pouze určení rychlosti zachycených objektů.
 					\end{itemize}
+					
+					U FM-CW\footnotemark\footnotetext{Frequency-Modulated Continuous-Wave} radarů je oproti pulsním radarům měření vzdálenosti podstatně komplikovanější. TODO zeptat se vedoucího co tu chce.
 			\end{itemize}
 		
 		\section{Vestavěné systémy}
@@ -177,15 +185,15 @@
 	\section{Platforma}\label{navrhReseni::platforma}
 		Jak již bylo zmíněno v~úvodu této kapitoly, potřebujeme malé, ale~rychlé zařízení, které bude v~reálném čase poskytovat údaje o~aktuální výšce. V~našem případě, vzhledem k~reakční době člověka okolo sekundy, bude stačit, když systém stihne spočítat výsledek a~předat jej pilotovi do $\sim$250ms.\par
 		
-		Kvůli nárokům na velikost můžeme vyřadit objemné osobní počítače s~architekturou x86 případně AMD64 a~spíše se ponořit do~oblasti vestavěných systémů. V~současnosti trh nabízí dostatečně výkonné a~zároveň dostatečně kompaktní zařízení, která~jsou pro náš účel vhodná. Jako možný kandidát se jeví mikropočítač Raspberry Pi, který už je dostatečně výkonný a~zároveň malý aby mohl splnit požadavky naši úlohu. Bohužel, kvůli konektivitě je tato platforma nevhodná. Jako další se nabízí Arduino. Tato platforma nabízí solidní výkon za rozumné peníze. Bohužel tento výkon nedostačuje našim potřebám a~hodí se spíše do nově rozvíjejícího se oboru Internet of Things. Vhodnější alternativa k~tomuto řešení se jeví procesor rodiny Zynq od~výrobce Xilinx, který je určen přesně pro naše potřeby, a~díky integrovaným programovatelným hradlovým polím FPGA výrazně urychluje zpracování ozvěny signálu byť už jen pouhým vzorkováním daného signálu. Přístroj s~procesorem dodala společnost CAMEA s.r.o. Na tomto procesoru bude spuštěn operační systém OpenSUSE, který bude obsluhovat naši aplikaci.
+		Kvůli nárokům na velikost a spotřebu můžeme vyřadit objemné osobní počítače s~architekturou x86 případně AMD64 a~spíše se ponořit do~oblasti vestavěných systémů. V~současnosti trh nabízí dostatečně výkonné a~zároveň dostatečně kompaktní zařízení, která~jsou pro náš účel vhodná. Jako možný kandidát se jeví mikropočítač Raspberry Pi, který už je dostatečně výkonný a~zároveň malý aby mohl splnit požadavky naši úlohu. Bohužel, kvůli konektivitě je tato platforma nevhodná. Jako další se nabízí Arduino. Tato platforma nabízí solidní výkon za rozumné peníze. Bohužel tento výkon nedostačuje našim potřebám a~hodí se spíše do nově rozvíjejícího se oboru Internet of Things. Vhodnější alternativa k~tomuto řešení se jeví procesor rodiny Zynq od~výrobce Xilinx, který je určen přesně pro naše potřeby, a~díky integrovaným programovatelným hradlovým polím FPGA výrazně urychluje zpracování ozvěny signálu byť už jen pouhým vzorkováním daného signálu. Přístroj s~procesorem dodala společnost CAMEA s.r.o. Na tomto procesoru bude spuštěn operační systém OpenSUSE, který bude obsluhovat naši aplikaci.
 		
-	\section{Radar}
-		Radarový transciever, se~kterým~budeme v~této práci pracovat je K-MC1 Radar Transciever firmy RFbeam Microwave GmbH dodaný firmou CAMEA s.r.o. Jedná se o~kontinuálně vysílající a~přijímající radar s~frekvenční modulací. Díky frekvenční modulaci vysílaného signálu jsme schopni změřit nejenom rychlost objektu, ale~i~jeho vzdálenost, což je přesně to, co pro naše účely potřebujeme.
+	\section{Hardware}
+		Radarový transciever, se~kterým~pravděpodobně budeme v~této práci pracovat je IVS-948 firmy InnoSenT dodaný firmou CAMEA s.r.o. Jedná se o~kontinuálně vysílající a~přijímající radar s~frekvenční modulací. Díky frekvenční modulaci vysílaného signálu jsme schopni změřit nejenom rychlost překážky, ale~i~jeho vzdálenost, což je přesně to, co pro naše účely potřebujeme.
 	
-	\section{Výstupní zařízení}
+	\paragraph{Výstupní zařízení}
 		Náš systém musí pilotovi nějak interpretovat sesbíraná data, jinak by byl zbytečný. Způsob komunikace musí být tak detailní, aby dokázal předat informace o~výšce nad~zemí a~zároveň dostatečně jednoduchý, aby pilot mohl data ze~systému zpracovat rychle a~efektivně aniž by výstupní zařízení odvádělo pozornost od~právě prováděných úkonů. Jedna z~možností je použití zvukových signálů, druhá je zobrazování aktuálních informací na přístrojové desce letounu. Zde si musíme položit otázku, jaký z~těchto způsobů zvolíme. Zobrazení dat na přístrojové desce nabízí možnost jejich nejpřesnější interpretace, bohužel bude odvádět pozornost pilota a~zvyšuje se riziko nehody. Jako další nevýhodu autor vidí zbytečně zabraný prostor, jehož přidaná hodnota po osazení přístrojem pro zobrazovaní dat není dostatečná pro naše použití. 
 			
-	\section{Vstupní zařízení}		
+	\paragraph{Vstupní zařízení}		
 		Pilot musí být schopen zařízení také ovládat. Proto se musíme zamyslet nad možnými ovládacími prvky.
 		Zařízení budeme muset nějak zapnout a kalibrovat. Máme dvě možnosti. Buď se zařízení bude zapínat a vypínat automaticky zároveň s motorem, nebo jej bude moci pilot ovládat. Autor se přiklání k možnosti ovládání pilotem, jelikož v pozdějších fázích výuky může být asistence našeho systému nežádoucí. Přesně si to určí až zákazník.\par
 		Zákazník jistě bude chtít modul také kalibrovat. Zde si musíme uvědomit, že kalibrace se může úspěšně provést pouze, když letadlo stojí na zemi v klidu. Dochází totiž k nastavení referenční hodnoty výšky zařízení nad dráhou a není žádoucí aby se kalibrace prováděla ve vzduchu. Možné následky jsme si již uváděli. Spuštění musí být jednoduché a zároveň k němu nesmí dojít náhodou. Proto se nabízí možnost krytého tlačítka. Inspirovat se můžeme u stíhacích letounů, kdy při odklopení krytky dochází k odjištění zbraní. Finální podobu si opět určí zákazník.
@@ -227,6 +235,8 @@
 			\item na trup letadla, toto bohužel bude vyžadovat vrtání do trupu a~tudíž úpravu konstrukce letadla. Samozřejmostí pak musí být kalibrace modulu, stejně jako výše.
 			\item do trupu letadla, ideálně do~odpružené schránky ať se zařízení nepoškodí. Zde je třeba vzít v úvahu materiál trupu letadla a jeho propustnost elektromagnetického záření případně. Zároveň je třeba zachovat možnost snadného přístupu k zařízení. S touto možností je třeba počítat již při návrhu letadla. Tudíž bude finančně nákladná.
 		\end{itemize} 
+		
+		
 		Pro testování bude vhodné uchycení na nohu s odsazením, jelikož bude vyžadovat nejmenší zásahy do konstrukce letadla, bude k zařízení snadný přístup a hlavně bude nejlevnější.
 		Naopak pro produkční modely již bude vhodné zakomponovat tento výškoměr do letadla. To už záleží na zákazníkovi.
 		
@@ -244,9 +254,13 @@
 	Přikloňme se tedy k tzv. vysokoúrovňovému Assembleru, jazyku C/C++. Pro jazyk C/C++ svědčí jejich relativně vysoká úroveň abstrakce, relativně rychlý vývoj za zachování nízkých hardwarových nároků a podpora v podobě mnoha knihoven, modulů a frameworků. Tento jazyk mimo jiné podporuje pohodlnou implementaci vícevláknového zpracování dat, které jsme si navrhli v předchozí kapitole.
 	
 	\section{Použité knihovny}
-	TODO
+	TODO PortAudio
 	
 	\section{Vícevláknová obsluha požadavků}
+	TODO ThreadSafe FIFO and FILO
+	TODO etc.
+	
+	\section{Princip generování zvuku}
 	TODO
 	
 	
