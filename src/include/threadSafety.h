@@ -189,19 +189,6 @@ namespace threadSafety{
                 }
             }
     };
-//    template<typename T>
-//    class pakos
-//    {
-//        pakos(std::mutex &m, T& t_): mtx(m), t(t_){}
-//        T* operator->() 
-//        {
-//            return &t;
-//        }
-//        
-//        std::mutex &mtx;
-//        T &t;
-//        std::unique_lock lck(mtx);
-//    };
 }
 
 #endif

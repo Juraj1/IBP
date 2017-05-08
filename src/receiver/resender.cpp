@@ -27,7 +27,7 @@ resender::~resender(){
 
 bool resender::read_config(){
     std::ifstream file;
-    file.open("radar.conf");
+    file.open("/opt/cfg/radar.conf");
     
     std::string line;
     std::string type;
@@ -212,7 +212,6 @@ void resender::controller(){
             paudio::setFreq(350);
             sleep(5);
         }
-        paudio::beep(523, 200);
     }
 }
 
