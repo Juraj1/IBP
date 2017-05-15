@@ -1,0 +1,29 @@
+jak instalovat na x86/AMD64: 
+
+[root@localhost]# <package-manager> install portaudio-devel alsa-utils
+
+-pokud to po Vas bude chtit zavistlosti, prosim doinstalujte
+-vyberte spravny zvukovy vystup
+
+[user@localhost]$ cd ./src
+[user@localhost]$ make
+
+- pokud neexistuje slozka /opt/cfg/ tak ji vytvorime
+
+[user@localhost]$ sudo cp ./receiver/radar.conf /opt/cfg/ //zkopirujeme do ni konfiguracni soubor
+[user@localhost]$ ./sender/sender && ./receiver/IBP  //toto spousti testovaci SW(misto programu zpracovavajici radarova data) a generator vystupu
+
+===============================================================================================
+
+jak instalovat na embedded zarizeni:
+kontrola kernelu pro snd-usb-audio
+instalace portaudio-devel
+instalace alsa-utils pripadne alsa-firmware
+ve slozce ./src zavolame make
+kopie konfiguraku do /opt/cfg (pokud slozka neexistuje, tak ji vytvorime)
+spustime nejdrive program sender/sender a pak program receiver/IBP
+zajistit Vami zvolenou metodou start techto programu po startu
+
+ ===============================================================================================
+||v zadnem pripade nemodifikujeme strukturu zdrojovych souboru - pak nemusi byt preklad uspesny||
+ ===============================================================================================
