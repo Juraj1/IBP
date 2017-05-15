@@ -100,7 +100,7 @@
 					\end{itemize}
 					
 					U~FM-CW\footnotemark\footnotetext{Frequency-Modulated Continuous-Wave} radarů je oproti pulsním radarům měření vzdálenosti podstatně komplikovanější.\par
-					Jak je zmíněno výše, FM-CW radar potřebuje pro~detekci vzdálenosti frekvenční modulaci. V~reálu se využívá více modulací, zde si uvedeme pouze několik. Modulaci pilovitou, a~modulaci trojúhelníkovou. Díky těmto modulacím jsme schopni zjistit vzdálenost překážky. Nejdříve odstraníme dopplerův posuv a~posléze můžeme vzdálenost vypočítat pomocí časového rozdílu mezi odeslaným signálem a~přijatým signálem se stejnou frekvencí. 
+					Jak je zmíněno výše, FM-CW radar potřebuje pro~detekci vzdálenosti frekvenční modulaci. V~reálu se využívá více modulací, zde si uvedeme pouze několik. Modulaci pilovitou, a~modulaci trojúhelníkovou. Díky těmto modulacím jsme schopni zjistit vzdálenost překážky. Nejdříve odstraníme dopplerův posuv a~posléze můžeme vzdálenost vypočítat pomocí časového rozdílu mezi odeslaným signálem a~přijatým signálem se stejnou frekvencí \cite{radarHandbook}.
 					
 					\begin{figure}[H]
 						\begin{center}
@@ -108,6 +108,9 @@
 					 		\caption{Frekvenční modulace trojúhelníkem}\label{FMCW-triangle}
 					 	\end{center}
 					\end{figure}
+					 
+					 Dopplerovu frekvenci vypočítáme s pomocí vzorce \[f_d=\frac{\Delta f_1 + \Delta f_2 }{2}\] přijatou frekvenci vypočítáme ze vzorce \[f_r=\frac{\Delta f_1-\Delta f_2}{2}\]
+					 a~výslednou vzdálenost určíme pomocí naši znalosti rychlosti s~jakou modulujeme vysílaný signál.
 					 
 			\end{itemize}
 		
@@ -124,18 +127,8 @@
 			Pro tuto úlohu se hodí programovatelné hradlové pole FPGA. Toto pole bude vzorkovat signál s~dostatečnou frekvencí a~po sběrnici jednotlivé vzorky posílat dále do procesoru pro~zpracování.\par
 			
 			\paragraph{Xilinx Zynq}
-				Po určení požadavků na~hardware v~úvahu připadají zařízení od~výrobce programovatelných hradlových polí Xilinx. Konkrétně rodina procesorů Zynq, která~kombinuje FPGA s~procesorovým jádrem ARM Cortex.
-				Jak již bylo zníněno výše, FPGA navzorkuje signál a~pošle jej k~dalšímu zpracování přez AXI porty jádru procesoru ARM, na kterém poběží odlehčená verze Linuxu. Na tomto operačním systému poběží aplikace provádějící potřebné výpočty a~bude posílat výsledek na výstup.
-				
-				\begin{figure}[h]
-					\begin{center}
-						\includegraphics[scale=0.6]{obrazky-figures/zynq-mp-core-single.png}
-						\caption{Architektura procesoru Zynq-7000\protect\footnotemark}
-						\label{teorie::embedded::zynq}
-					\end{center}
-				\end{figure}
-				\footnotetext{zdroj: \url{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}}
-			
+				Po určení požadavků na~hardware v~úvahu připadají zařízení od~výrobce programovatelných hradlových polí Xilinx. Konkrétně rodina procesorů Zynq, která~kombinuje FPGA s~procesorovým jádrem ARM Cortex. \cite {zynq}
+				Jak již bylo zníněno výše, FPGA navzorkuje signál a~pošle jej k~dalšímu zpracování přez AXI porty jádru procesoru ARM, na kterém poběží odlehčená verze Linuxu. Na tomto operačním systému poběží aplikace provádějící potřebné výpočty a~bude posílat výsledek na výstup.	Architekturu procesorů rodiny Zynq můžeme vidět na obrázku \ref{teorie::embedded::zynq}.			
 			\paragraph{Řídící modul}
 				Řídící modul obsahující výše zmíněný procesor je dodán společností CAMEA s.r.o. Modul obsahuje vstupně výstupní porty, které~můžeme využít v~náš prospěch. Jako výstupní porty můžeme využít USB sběrnici s~přímým přístupen do paměti, GPIO porty nebo Serial Peripheral Interface. 
 				\begin{itemize}
@@ -145,6 +138,18 @@
 					
 					\item Zvuková komunikace může probíhat generováním tónů a~odesílání konektorem typu 3.5mm Jack. Bude se generovat stále stejný tón konstantní délky, přičemž zkracující se perioda bude signalizovat snižující se výšku. Pokud bude letadlo těsně nad zemí, bude se generovat tón bez přerušení.
 				\end{itemize}
+				
+				\begin{figure}[H]
+					\begin{center}
+						\includegraphics[scale=0.6]{obrazky-figures/zynq-mp-core-single.png}
+						\caption{Architektura procesoru Zynq-7000\protect\footnotemark}
+						\label{teorie::embedded::zynq}
+					\end{center}
+				\end{figure}
+				\footnotetext{zdroj: \url{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}}
+			
+
+			
 			
 			\paragraph{Kalibrace modulu}
 				Další částí naší úlohy je nutnost kalibrace zařízení, jelikož každé letadlo může mít tento modul umístěno v~jiné výšce nad zemí. Kalibrace může být statická - v~kódu bude přičtena konstanta, nebo dynamická, kdy~se před startem modul zkalibruje. Statická kalibrace má výhodu jednoduššího chování modulu a~bude vyžadovat o~jeden ovládací prvek méně, avšak bude nutno zasahovat do zdrojových kódů při~instalaci na jiné letadlo. Dynamická kalibrace, na rozdíl od~statické, má nevýhodu složitějšího řídícího programu, ale~bude možno mít jeden program pro~všechny typy letadel. Přidaný ovládací prvek nebude téměř znát. V~tomto případě se autor přiklání k~dynamické kalibraci.
@@ -282,7 +287,7 @@
 		\end{itemize} 
 		
 		Pro testování bude vhodné uchycení na nohu s~odsazením, jelikož bude vyžadovat nejmenší zásahy do konstrukce letadla, bude k~zařízení snadný přístup a~hlavně bude nejlevnější.
-		Naopak pro~produkční modely již bude vhodné zakomponovat tento výškoměr do letadla. To už záleží na zákazníkovi.
+		Naopak pro~produkční modely již bude vhodné zakomponovat tento výškoměr do letadla. To už záleží na potenciálním zákazníkovi.
 		
 \chapter{Implementace}
 	V~předchozí kapitole jsme si pověděli co budeme dělat. Nyní si řekneme jak to budeme dělat, co k~tomu budeme potřebovat a~proč to tak~budeme dělat.\par
@@ -298,7 +303,7 @@
 	Přikloňme se tedy k~tzv. vysokoúrovňovému Assembleru, jazyku C/C++. Pro jazyk C/C++ svědčí jejich relativně vysoká úroveň abstrakce, relativně rychlý vývoj za zachování nízkých hardwarových nároků a~podpora v~podobě mnoha knihoven, modulů a~frameworků. Tento jazyk mimo jiné podporuje pohodlnou implementaci vícevláknového zpracování dat, které jsme si navrhli v~předchozí kapitole.
 	
 	\section{Použité knihovny}
-	Na naprostou většinu operací nám stačí knihovny, které již jsou obsaženy v~systému. Dále ale~potřebujeme knihovny, které nám umožní ovládat framework ALSA a~s~jeho pomocí generovat zvukový signál. V~tomto konkrétním případě použijeme knihovnu PortAudio. PortAudio je multiplatformní otevřená knihovna pro~vstupně/výstupní zvukové operace. Toto API poskytuje možnosti asynchronního volání funkcí a~další nástroje pro~generování zvukového signálu. Knihovna je implementována v~jazyce C a~je možno ji použít i~v~jazyce C++. Také na ní existuje nástavba v~jazyce Python. Ten ale~v~této práci nevyužíváme.
+	Na naprostou většinu operací nám stačí knihovny, které již jsou obsaženy v~systému. Dále ale~potřebujeme knihovny, které nám umožní ovládat framework ALSA a~s~jeho pomocí generovat zvukový signál. V~tomto konkrétním případě použijeme knihovnu PortAudio\cite{portAudio}. PortAudio je multiplatformní otevřená knihovna pro~vstupně/výstupní zvukové operace. Toto API poskytuje možnosti asynchronního volání funkcí a~další nástroje pro~generování zvukového signálu. Knihovna je implementována v~jazyce C a~je možno ji použít i~v~jazyce C++. Také na ní existuje nástavba v~jazyce Python. Ten ale~v~této práci nevyužíváme.
 	
 	
 	\section{Vícevláknová obsluha požadavků}
@@ -314,18 +319,46 @@
 	\textit{K} značí koeficient a~\textit{h} značí výšku výdrže daného letadla.
 	
 	\section{Konfigurace a~spuštění}
-	Konfigurace probíhá modifikací přečtením konfiguračního souboru \texttt{/opt/cfg/radar.conf}. (zde prosím vedoucího o~kontrolu)Spuštění se provádí vypínačem, kdy najede operační systém a~ihned po jeho spuštění dojde ke~spuštění programu simulující přistání a~programu generující zvuk.
-	TODO po konzultaci
+	Konfigurace probíhá modifikací konfiguračního souboru \texttt{/opt/cfg/radar.conf}. Vzor můžeme vidět na obrázku \ref{implementace::config}. Položka označující typ letadla je určen pro budoucí použití v rámci rozšíření práce a v současné době nemá na běh programu žádný vliv. Další položky jej ovšem ovlivňují výrazně. Položka \texttt{FLARE\_INIT\_HEIGHT} definuje výšku nad dráhou, kdy má pilot začít přitahovat. Pod touto výškou program generuje vyšší frekvenci než v předchozích fázích přistání. Položka \texttt{FLARE\_HEIGHT} označuje výšku výdrže, ve které má pilot držet letadlo do doby než ztratí vztlak a dosedne na dráhu. Poslední položka \texttt{CTRL\_PORT} označuje port, na kterém bude program generující zvuk přijímat zprávy.\par
+	Spouštění všech programových modulů probíhá automaticky ihned po startu. Cesta ke spustitelným binárním souborům je uvedena ve skriptu \texttt{/root/boot/launcher.sh}, který se spouští ihned po startu a startuje jednotlivé služby.
+	
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.5]{obrazky-figures/config.png}
+			\caption{ukázka konfiguračního souboru}
+			\label{implementace::config}
+		\end{center}
+	\end{figure}
+	
 	
 	\section{Testování}
-	Pro testovací účely komunikace mezi jednotlivými moduly a~pro testování správného generování zvuku autor napsal testovací program, který do komunikačního protokolu iterativně vyplňuje všechny potřebné informace. Program využívá BSD schránek a~odesílá UDP pakety dále.
-	V~reálných podmínkách bohužel nebylo možno systém otestovat, jelikož nám nebyl dodán původně domluvený algoritmus pro~zpracování radarového signálu. TODO zhodnocení výsledku testování.
+	Pro testování funkčnosti jednotlivých modulů autor napsal testovací aplikaci, která iterativně vyplňuje pakety potřebnými daty a ty následně odesílá modulu pro generování zvuku.\par
+	Nejdříve autor otestoval komunikaci mezi těmito dvěma moduly ručním spuštěním modulů na cílové platformě, test proběhl v pořádku s očekávanými výsledky. Následně autor otestoval automatické spouštění po nastartování zařízení a spuštění operačního systému. I tento test se zdařil a ihned po spuštění operačního systému začalo zařízení generovat zvuk. Fotografie z testování může čtenář vidět na obrázcích \ref{testovani::bastl} a \ref{testovani::radar}.
+	
+	
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.08]{obrazky-figures/bastlDetail.jpg}
+			\caption{Detail zařízení s externí zvukovou kartou}
+			\label{testovani::bastl}
+		\end{center}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.08]{obrazky-figures/bastlARadar.jpg}
+			\caption{Zařízení se zapojeným radarem}
+			\label{testovani::radar}
+		\end{center}
+	\end{figure}
+	
+	Tyto testy ověřily celkovou funkčnost modulu pro generování zvuku, včetně kontroly a zahazování neaktuálních zpráv. Ovšem při překladu je třeba dávat pozor na správné nastavení systémového data, jinak nejdou zdrojové soubory přeložit.
+	Tímto je zařízení připraveno pro zavedení modulu zpracovávající radarový signál a cíl naší práce byl splněn. Další testování bude třeba provést po rozšíření této práce zavedením dříve zmíněného modulu nebo přesunutím modulu zpracovávající radarová data do FPGA.
 	
 \chapter{Závěr}
-	V~úvodu této práce jsme si vytyčili jisté cíle. Čtenář se seznámil se stručnou historií měření výšky a~byl relativně detailně uveden do této problematiky. Vysvětlili jsme si významy pojmů QHN, AMSL a~transition level. Dále byla čtenáři vysvětlena nepřesnost barometrických výškoměrů, tzv. aneroidů, tato nepřesnost byla zdůvodněna a~čtenáři bylo vysvětleno, proč chyba měření výšky pomocí aneroidu nezpůsobí srážku letadel ve~vzduchu.\par
-	Čtenáři také byl stručně přiblížen vývoj radaru a~byly popsány použité technologie v~našem řešení. Následně byl čtenář uveden do problematiky řízení letového provozu, konkrétně fáze přistání, jak se dělí a~jaké nástrahy v~jednotlivých fázích může pilot očekávat.\par
-	Naším hlavním cílem ovšem byl návrh systému, který by usnadnil výuku přistání začínajícím pilotům a~zvýšil její bezpečnost. Tento cíl byl splněn. V~této kapitole jsme se zamysleli nad vhodnými platformami pro~toto konkrétní použití, jak z~hlediska operačního systému, tak~z~hlediska použitelných procesorů. Dále jsme se zamysleli nad podobou vstupního a~výstupního hardware s~analýzou dopadů na pozornost pilota, důrazem na jednoduchost, efektivnost ovládaní a~přenosu informace pilotovi. Následně jsme si ukázali návrh komunikace mezi jednotlivými částmi se stručnou analýzou možných technologií pro~implementaci komunikace. V~té stejné sekci jsme si navrhli možnou architekturu programů běžících v~našem systému. Po vyřešení této problematiky s~důrazem na aktuálnost dat a~tudíž bezpečnost posádky jsme si popsali komunikační protokol a~zdůvodnili přítomnost jednotlivých položek. Na konci této kapitoly jsme se zamysleli nad umístěním hardware na letadle z~několika pohledů ať to je testování či výsledná produkce.\par
-	Po návrhu celého systému jsme přikročili k~řešení implementace. Nejdříve jsme si vyjmenovali potřebné systémové prerekvizity pro~zajištění správné funkcionality programového vybavení. Dále jsme se analyzovali vhodnost jednotlivých jazyků pro~implementaci programového vybavení v~našem zařízení. Samozřejmostí je výběr vhodných knihoven pro~implementaci programového vybavení a~zdůvodnění daného výběru. Řekli jsme si jak vypadá implementace vláknově bezpečné fronty pomocí šablon pro~zjednodušení implementace a~zobecnění použití. Taky jsme si ukázali kontrolu aktuálnosti přijatých dat ke~zpracování. Následně jsme si vysvětlili princip generování zvuku s~pomocí zvolené knihovny a~její ovládání. Samozřejmostí je i~popis konfigurace zařízení pro~různé modely letadel, spuštění systému a~na závěr jsme si vysvětlili postup testování systému.\par
-	V~práci je možno pokračovat doplněním algoritmu pro zpracování radarového signálu, čímž se tento systém stane plně funkčním. Dále bude záležet na zákazníkovi, jak se postaví k~ovládacím prvkům hardware a~jakou implementaci bude požadovat. V případě potřebného zrychlení, může dojít k přesunutí algoritmu pro zpracování radarového signálu na FPGA. Toto může být použito jako téma autorovy diplomové práce.
-	
-%=========================================================================
+	V~úvodu této práce jsme si vytyčili jisté cíle. Čtenář se seznámil se stručnou historií měření výšky a~byl relativně detailně uveden do této problematiky. Vysvětlili jsme si významy pojmů QHN, AMSL a~transition level. Dále byla čtenáři vysvětlena nepřesnost barometrických výškoměrů, která byla zdůvodněna a~čtenáři bylo vysvětleno, proč chyba měření výšky pomocí aneroidu nezpůsobí srážku letadel ve~vzduchu.
+	Čtenáři také byl stručně přiblížen vývoj radaru a~byly popsány použité technologie v~našem řešení. Následně byl čtenář stručně uveden do problematiky přistání.\par
+	Naším hlavním cílem ovšem byl návrh systému, který by usnadnil výuku přistání začínajícím pilotům a~zvýšil její bezpečnost. Tento cíl byl splněn. V~této kapitole jsme se zamysleli nad vhodnými platformami. Dále jsme se zamysleli nad podobou vstupního a~výstupního hardware s~analýzou dopadů na pozornost pilota, důrazem na jednoduchost ovládaní. Následně jsme si ukázali návrh komunikace mezi jednotlivými částmi se stručnou analýzou možných technologií pro~implementaci komunikace. V~té stejné sekci jsme si navrhli možnou architekturu programového vybavení. Také jsme vytvořili komunikační protokol. Na konci této kapitoly jsme se zamysleli nad umístěním radaru na letadle.\par
+	Po návrhu celého systému jsme přikročili k~řešení implementace. Nejdříve jsme si vyjmenovali potřebné systémové prerekvizity pro~zajištění správné funkcionality programového vybavení. Dále jsme se analyzovali jednotlivé jazyky pro~implementaci navrženého systému. Samozřejmostí je výběr vhodných knihoven a~zdůvodnění daného výběru. Popsali jsme si implementaci vláknově bezpečné fronty pomocí šablon. Taky jsme si ukázali kontrolu aktuálnosti přijatých dat ke~zpracování. Následně jsme si vysvětlili princip generování zvuku. Samozřejmostí je i~popis konfigurace zařízení pro~různé modely letadel, spuštění systému a~na závěr jsme si vysvětlili postup testování systému.\par
+	Autor oceňuje, že~díky této práci získal důležité zkušenosti týkající se návrhu kritických systémů běžícím v reálném čase. Dále oceňuje zkušenosti získané návrhem zařízení jako celku skládajícího se z jednotlivých modulů, které mezi sebou musí bezchybně a~rychle komunikovat. Další důležitá zkušenost je kladení důrazu na výběr lidí pro spolupráci, konkrétně na jejich spolehlivost a~důslednost.\par
+	V~práci je možno pokračovat doplněním algoritmu pro zpracování radarového signálu, čímž se tento systém stane plně funkčním. Dále bude záležet na potenciálním zákazníkovi, jak se postaví k~ovládacím prvkům hardware a~jakou implementaci bude požadovat. Také může dojít k přesunutí algoritmu pro zpracování radarového signálu na FPGA.

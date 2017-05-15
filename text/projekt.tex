@@ -105,8 +105,8 @@
   %Skolitel / supervisor
   supervisor=Lukáš Maršík, %cele jmeno a prijmeni skolitele / full name and surname of the supervisor
   supervisor.name={Lukáš},   %jmeno skolitele (pro citaci) / supervisor name (for reference) 
-  supervisor.surname={Maršík},   %prijmeni skolitele (pro citaci) / supervisor surname (for reference) 
-  supervisor.title.p=Ing.,   %titul pred jmenem (nepovinne) / title before the name (optional)
+  supervisor.surname={Ing.~Maršík},   %prijmeni skolitele (pro citaci) / supervisor surname (for reference) 
+  supervisor.title.p={Ing.},   %titul pred jmenem (nepovinne) / title before the name (optional)
   supervisor.title.a={},    %titul za jmenem (nepovinne) / title after the name (optional)
   %Klicova slova, abstrakty, prohlaseni a podekovani je mozne definovat 
   %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
@@ -129,11 +129,11 @@
 }
 
 %Abstrakt (cesky, slovensky ci anglicky) / Abstract (in czech, slovak or english)
-\abstract[cs]{V~této bakalářské práci se~autor zabývá návrhem radarového výškoměru. Čtenář je nejdříve uveden do~historického kontextu vývoje avioniky, fyzikálních objevů vedoucím k~měření výšky, stejně jako~je uveden do problematiky měření výšky. Dále jsou čtenáři ukázány použité technologie a~je mu přiblížena problematika přistání. Po~teoretickém úvodu se~autor věnuje návrhu jednotlivých částí zařízení, komunikaci mezi jednotlivými programy, komunikaci s~uživatelem a~umístění na~letadle. Po návrhu zařízení autor popisuje implementaci, kde~si zvolí implementační jazyk a~ukáže jednotlivé kroky implementace včetně testování. V~závěru je tato práce zhodnocena z~pohledu autora a~je rozvedeno její možné pokračování.}
-\abstract[en]{In this bachelor thesis author designs a~radar altimeter. Firstly, the~reader is introduced to historical context of~avionics development, discoveries in the~field of physics leading to the~measuring of altitude as~well~as altitude measurement problematic. Secondly, the~used technologies are shown to the~reader and the~reader becomes acquainted with theory of~landing. After this theoretical beginning, author explains design of~each particular segment of~the~device, inter-program communication, communication with the~user and device-placement on the~aircraft. After designing the device, author describes implementation where he chooses the~language for implementation and shows steps that lead to~finished product including testing. In the~end of this thesis, the~work is evaluated from the author's point of view and~it's possible extensions are analyzed.}
+\abstract[cs]{V~této bakalářské práci se~autor zabývá návrhem a částečnou implementací radarového výškoměru. V této práci je kladen důraz na motulární architekturu a~proto je tento výškoměr navržen jako soubor samostatných modulů komunikujících pomocí BSD schránek. Implementace programového vybavení je v~C++ a~pro generování zvuku je použita knihovna PulseAudio. Dále je zde řešena bezpečnost mezivláknové fronty a~zásobníku pomocí třídy implementované jako šablona pro~zachování jednoduchosti a~obecnosti pro~další využití.} 
+\abstract[en]{In this bachelor thesis author designs a~radar altimeter. In~this thesis the~emphasis is placed onto modular architecture andthat is why this altimeter is designed as a~group of~independent modules communicating through BSD sockets. Software implementation is made in~C++ and~for sound generator is used library PulseAudio. Next topic is multithreading safety implementation of~queue and~stack which was made by template class to keep simplicity and generality.}
 
 %Klicova slova (cesky, slovensky ci anglicky) / Keywords (in czech, slovak or english)
-\keywords[cs]{radar, výškoměr, PulseAudio, C++, vícevláknové zpracování, BSD schránky, avionika, generování zvuku, vestavěné systémy, Zynq, FPGA, USB zvuková karta, přistání}
+\keywords[cs]{radar, výškoměr, PulseAudio, C++, vícevláknové zpracování, BSD schránky, avionika, generování zvuku, vestavěné systémy, Xilinx Zynq, FPGA, USB zvuková karta, přistání}
 \keywords[en]{radar, altimeter, PulseAudio, C++, multithreading, BSD sockets, avionics, sound generating, embedded systems, Zynq, FPGA, USB soundcard, landing}
 
 %Prohlaseni (u anglicky psane prace anglicky, u slovensky psane prace slovensky)
@@ -146,7 +146,7 @@ Uvedl jsem všechny literární prameny a~publikace, ze~kterých jsem čerpal.}
 % All the relevant information sources, which were used during preparation of this thesis, are properly cited and included in the list of references.}
 
 %Podekovani (nepovinne, nejlepe v jazyce prace) / Acknowledgement (optional, ideally in the language of the thesis)
-\acknowledgment{Tímto chci poděkovat mému vedoucímu, panu Ing.~Lukáši Maršíkovi za odborné vedení práce a~firmě ARTISYS~s.r.o. za poskytnutí vzdělání v oboru civilní letectví.}
+\acknowledgment{Tímto chci poděkovat mému vedoucímu, panu Ing.~Lukáši Maršíkovi za odborné vedení práce a~kolegům z práce za poskytnutí doplňujících informací.}
 %\acknowledgment{Here it is possible to express thanks to the supervisor and to the people which provided professional help
 %(external submitter, consultant, etc.).}
 
