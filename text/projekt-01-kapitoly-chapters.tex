@@ -13,8 +13,8 @@
 	Cílem této práce není, jak se může zdát, zpracování signálů. Prvním cílem této práce je úvod historie vývoje avioniky, hlavně výškoměrů. Druhým cílem je úvod do problematiky měření výšky již od jejího počátku. Dále bude čtenář stručně seznámen s~vývojem radarů, dozví se, jak se radary dělí a~k~čemu se jednotlivé typy využívají.
 	Třetím cílem je popis problému výuky přistání a~důvod pro~zadání této práce, jakožto i~jejího řešení. Dalším cílem je návrh takového systému, který~splní veškeré požadavky na bezpečnost letového provozu na letištích, zvýší bezpečnost výuky přistání a~samozřejmě zjednoduší samotnou výuku. V~ideálním případě dojde i~k~implementaci a~vzniku samotného systému, jeho integrace do letadla a~úspěšnému otestování.\par
 
-	V~následujících kapitolách budeme plnit cíle vytyčené v~předchozím odstavci. Nejdříve se podíváme na vývoj přístrojů a~jejich použití, vývoj měření tlaku a~s~jeho pomocí i~měření výšky. Uvedeme si něco existujících radarových výškoměrech a~jejich využití a~zběžně si ukážeme vývoj radaru.\par
-	Po tomto zařazení do historického kontextu si popíšeme a~vysvětlíme fungování jednotlivých technologií a~přiblížíme si problematiku přistání.\par
+	V~následujících kapitolách budeme plnit cíle vytyčené v~předchozím odstavci. Nejdříve se podíváme na vývoj přístrojů a~jejich použití, vývoj měření tlaku a~s~jeho pomocí i~měření výšky. Uvedeme si něco existujících radarových výškoměrech a~jejich využití a~zběžně si ukážeme vývoj radaru.
+	Po tomto zařazení do historického kontextu si popíšeme a~vysvětlíme fungování jednotlivých technologií a~přiblížíme si problematiku přistání.
 	Následuje návrh řešení našeho problému, kde analyzujeme zadání a~pokusíme se dobrat optimálního řešení. Následně bude vysvětlena implementace navrženého řešení a~v~závěru shrneme výsledky této práce, její přínos a~možnost dalšího pokračování.
 
 \chapter{Historie avioniky}
@@ -58,7 +58,7 @@
 		
 		\begin{figure}[H]
 			\begin{center}
-				\includegraphics[scale=0.75]{obrazky-figures/109Altimeter.jpg}
+				\includegraphics[scale=0.65]{obrazky-figures/109Altimeter.jpg}
 				\caption{Výškoměr z~letounu Bf109\protect\footnotemark}\label{historie::vyvojMereniVysky::109Altimeter}
 			\end{center}
 		\end{figure}
@@ -70,7 +70,7 @@
 		Dalším zdokonalením bylo uvedení radarových výškoměrů. Ty jsou využívány jako hlavní součást GPWS(Ground Proximity Warning System), kde měří absolutní výšku nad terénem. Toto se využívá ve~velkých letadlech vážících desítky tun. Našim cílem je vyvinout dostatečně malý, ale~výkonný vestavěný systém, který by radarové výškoměry zpřístupnil i~pro segment lehkých a~ultralehkých letadel.
 	
 	\section{Vývoj radaru}
-		Zrození radaru se datuje do počátku 20. století, kdy~si mocnosti nezávisle na~sobě uvědomily význam této technologie. Mezi lety 1934 a~1939 začaly USA, Velká Británie, Německo, Sovětský svaz, Japonsko, Nizozemsko, Francie a~Itálie nezávisle na sobě vyvíjet systém detekce pomocí radiových vln.\cite{history::radar} Vývoj radaru výrazně pomohl při~bitvě o~Británii, kdy~britové detekovali formující se letadla Luftwaffe nad Francouzským územím, a~tímto umožnil rychlou odezvu Britských pilotů.\par
+		Zrození radaru se datuje do počátku 20. století, kdy~si mocnosti nezávisle na~sobě uvědomily význam této technologie. Mezi lety 1934 a~1939 začaly USA, Velká Británie, Německo, Sovětský svaz, Japonsko, Nizozemsko, Francie a~Itálie nezávisle na sobě vyvíjet systém detekce pomocí radiových vln\cite{history::radar}. Vývoj radaru výrazně pomohl při~bitvě o~Británii, kdy~britové detekovali formující se letadla Luftwaffe nad Francouzským územím, a~tímto umožnil rychlou odezvu Britských pilotů.\par
 			
 		Během studené války se radary výrazně zdokonalily. Zvětšil se jejich výkon a~zmenšila se jejich velikost. V~současné době se radary houfně využívají k~mírovým účelům, od~sledování počasí přes letectví či~posuny zemské kůry až po mapování.
 		
@@ -223,7 +223,7 @@
 	\section{Komunikační protokol}\label{navrhReseni::protokol}	
 		Aby byly dva moduly schopny komunikovat nějakým rozumným způsobem, potřebujeme komunikační protokol.
 		U~návrhu komunikačního protokolu je třeba zjistit, co přesně potřebujeme a~pozastavit se nad možnými rozšířeními do budoucna. Mohlo by se zdát, že jedinou potřebnou informací je výška letadla nad terénem. Bohužel tomu tak~není. Ano, výška nad terénem je nejdůležitější přenášená informace, ale~sama o~sobě je nám k~ničemu. S~danou výškou potřebujeme přenést i~časovou informaci, kdy byla výška odeslána abychom mohli zajistit práci pouze s~aktuálními informacemi, jak již bylo zmíněno výše. Nyní se ovšem musíme zamyslet, jakým směrem se vývoj zařízení bude ubírat. Tato práce není pouze pro~uspokojení akademiků, ale~v~jejím závěru a~v~následném vývoji má vzniknout konkurenceschopný výrobek pro~trh. Proto můžeme předpokládat výrazný a~rychlý vývoj. Pravděpodobně v~některé následující iteraci vývoje dojde k~rozšíření o~informace, v~jakém stavu se radar nachází. Jako dobrý krok se jeví také přidání několika bajtů pro~zatím neznámé účely.\par
-		Finální verze protokolu bude obsahovat příznaky pro~přenos stavových informací o~velikosti jednoho bajtu a~výšku nad terénem, která bude v~datovém typu \texttt{double}, jeho velikost se bude lišit podle platformy, na které budou programy spuštěny. Nesmíme zapomenout na časové razítko v~mikrosekundách pro~identifikaci neaktuálních zpráv, rezervovaný prostor o~velikosti osmi bajtů a~nakonec ukončující bajt nastaven na nulu. Výsledek můžeme vidět na obrázku \ref{navrh::protokol}
+		Finální verze protokolu bude obsahovat příznaky pro~přenos stavových informací o~velikosti jednoho bajtu a~výšku nad terénem, která bude v~datovém typu \texttt{double}, jeho velikost se bude lišit podle platformy, na které budou programy spuštěny. Nesmíme zapomenout na časové razítko v~mikrosekundách pro~identifikaci neaktuálních zpráv, rezervovaný prostor o~velikosti osmi bajtů a~nakonec ukončující bajt nastaven na nulu. Výsledek můžeme vidět na obrázku \ref{navrh::protokol}.
 		
 		\begin{figure}[H]
 			\begin{center}
@@ -310,8 +310,8 @@
 	\section{Princip generování zvuku}
 	Zvuk je generován pomocí API poskytovaným knihovnou PortAudio. Nejdříve si povíme o~obecném principu fungování tohoto API a~následně se zaměříme na konkrétní implementaci v~této práci.\par
 	Nejdříve musí dojít i~inicializaci. Pro to potřebujeme získat informace o~výstupních zařízeních a~otevřít zvukový kanál. Při otevírání dáváme API k~dispozici adresu statické funkce, která bude asynchronně volána během běhu programu(callback). Tato funkce generuje signál, který je dále posílán do ALSA API. Programátor tak~je odstíněn od nízkoúrovňového programování. Komunikace mezi programátorem callbackem probíhá pomocí statické struktury definované jako globální proměnná. Jelikož je globální, hodnoty ve~struktuře jsou překladačem inicializovány na nuly. Díky tomu program začíná generovat zvuk až po nastavení frekvence ve~vlákně generující výstup.\par
-	Nyní nám vyvstává problém generování správného signálu. Po kontrole konzistence přijatých dat generujeme obdélníkový signál. Zvukový signál musí indikovat vertikální přibližování k~dráze a~tudíž se pauza mezi tóny a~délka tónu musí vhodně zkracovat. Musíme také počítat s~konfigurací, kdy každé letadlo má výšku výdrže jinou. Z~toho důvodu musíme použít vhodný vztah pro~výpočet. Experimentálně bylo zjištěno, že výraz: \[\texttt{25000~/~(výška~výdrže[m])}\] je vhodný pro~výšky výdrže pod 3~metry a~nad tři metry je vhodný výraz níže. \[\texttt{25000~/~(výška~výdrže[m]~/~2)}\]
-	Tento výraz je využit jako koeficient pro~násobení výšky nad letištěm pro~generování pauzy mezi tóny. Výsledek je v~milisekundách.
+	Nyní nám vyvstává problém generování správného signálu. Po kontrole konzistence přijatých dat generujeme obdélníkový signál. Zvukový signál musí indikovat vertikální přibližování k~dráze a~tudíž se pauza mezi tóny a~délka tónu musí vhodně zkracovat. Musíme také počítat s~konfigurací, kdy každé letadlo má výšku výdrže jinou. Z~toho důvodu musíme použít vhodný vztah pro~výpočet. Experimentálně bylo zjištěno, že koeficient pro násobení aktuální výšky nad dráhou: \[K~=~25000~/~h\] je vhodný pro~výšky výdrže pod 3~metry a~nad tři metry je vhodný výraz níže. \[K~=~25000~/~(h~/~2)\]
+	\textit{K} značí koeficient a~\textit{h} značí výšku výdrže daného letadla.
 	
 	\section{Konfigurace a~spuštění}
 	Konfigurace probíhá modifikací přečtením konfiguračního souboru \texttt{/opt/cfg/radar.conf}. (zde prosím vedoucího o~kontrolu)Spuštění se provádí vypínačem, kdy najede operační systém a~ihned po jeho spuštění dojde ke~spuštění programu simulující přistání a~programu generující zvuk.
